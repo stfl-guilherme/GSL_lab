@@ -1,7 +1,7 @@
 import gsl from '@/assets/hero-gsl.png'
 import rabisco from '@/assets/hero-rabisco-lab.png'
 
-// "Print" do próprio site feito com HTML, para a capa do arquivo da pasta Sites.
+// "Print" do próprio site feito com HTML, para a capa do arquivo da pasta Sistemas.
 // TODO: quando o site estiver no ar, troque por um print de verdade (imagem).
 export function SiteMockup() {
   return (

@@ -36,7 +36,7 @@ export function Work() {
           </p>
         </Reveal>
 
-        {/* celular: uma coluna (Sites primeiro); desktop: três iguais lado a lado */}
+        {/* celular: uma coluna (Sistemas primeiro); desktop: três iguais lado a lado */}
         <div ref={gridRef} className="mt-10 grid gap-11 md:mt-16 md:grid-cols-3 md:gap-7">
           {folders.map((folder, i) => (
             <Folder

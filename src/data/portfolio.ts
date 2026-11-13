@@ -51,11 +51,11 @@ export interface Folder {
 export const countLabel = (n: number) => `${n} ${n === 1 ? 'item' : 'itens'}`
 
 // ---------- Pastas ----------
-// A ordem aqui é a ordem na página (no celular, Sites vem primeiro).
+// A ordem aqui é a ordem na página (no celular, Sistemas vem primeiro).
 export const folders: Folder[] = [
   {
     id: 'sites',
-    name: 'Sites',
+    name: 'Sistemas',
     items: [
       { id: 'portfolio', kind: 'site', name: 'Este portfólio', detail: 'Site pessoal · React + Tailwind' },
     ],
