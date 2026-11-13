@@ -61,3 +61,5 @@ docs/design/              arquivos do design (fonte da verdade)
 - **Contato:** troque os `[...]` em `config/contact.ts` pelos dados reais.
 - **Foto do Sobre:** instruções em `AboutPhoto.tsx`.
 - **Deploy:** GitHub Pages com GitHub Actions (ainda não configurado).
+
+Lista completa, com as revisões de responsividade, acessibilidade e reduced-motion: [`docs/PENDENCIAS.md`](docs/PENDENCIAS.md).
