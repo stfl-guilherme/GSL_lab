@@ -1,111 +1,247 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+/* ------------------------------------------------------------------
+   Fonte da marca: Garet (Book = 400, Heavy = 800), em public/fonts/.
+   O design usa também o peso 500; como a Garet não tem esse peso aqui,
+   o Book cobre 400 e 500. Montserrat entra só como reserva, se estiver
+   instalada no aparelho.
+   ------------------------------------------------------------------ */
+@font-face {
+  font-family: "Garet";
+  src: url("/fonts/Garet-Book.woff2") format("woff2");
+  font-weight: 400 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Garet";
+  src: url("/fonts/Garet-Heavy.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ------------------------------------------------------------------
+   Tokens da marca. No Tailwind v4, cada variável dentro de @theme
+   vira classe: --color-brand gera bg-brand, text-brand, border-brand…
+   ------------------------------------------------------------------ */
+@theme {
+  --color-brand: #c1290a;   /* vermelho */
+  --color-rabisco: #dcdbd8; /* cinza do rabisco */
+  --color-ink: #2b2b2e;     /* texto */
+  --color-mute: #66655f;    /* texto secundário */
+  --color-off: #f6f5f3;     /* fundo claro */
+  --color-line: #e9e8e5;    /* linhas e bordas */
+
+  --font-sans: "Garet", "Montserrat", ui-sans-serif, system-ui, sans-serif;
+
+  /* O design troca de celular para desktop em 761px (= 47.5625rem). */
+  --breakpoint-md: 47.5625rem;
+
+  /* Títulos fluidos: crescem com a largura da página (cqi) entre um
+     mínimo e um máximo. Geram as classes text-title, text-display e
+     text-tagline, já com altura de linha, espaçamento e peso. */
+  --text-title: clamp(36px, 4.8cqi, 68px);
+  --text-title--line-height: 1.02;
+  --text-title--letter-spacing: -0.025em;
+  --text-title--font-weight: 800;
+  --text-display: clamp(40px, 6.6cqi, 100px);
+  --text-display--line-height: 1;
+  --text-display--letter-spacing: -0.035em;
+  --text-display--font-weight: 800;
+  --text-tagline: clamp(19px, 1.9cqi, 28px);
+}
+
+/* ------------------------------------------------------------------
+   Variáveis do shadcn/ui, apontando para as cores da marca. Assim os
+   componentes de src/components/ui já nascem com a identidade do site.
+   ------------------------------------------------------------------ */
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  --background: #fff;
+  --foreground: var(--color-ink);
+  --card: #fff;
+  --card-foreground: var(--color-ink);
+  --popover: #fff;
+  --popover-foreground: var(--color-ink);
+  --primary: var(--color-brand);
+  --primary-foreground: #fff;
+  --secondary: var(--color-off);
+  --secondary-foreground: var(--color-ink);
+  --muted: var(--color-off);
+  --muted-foreground: var(--color-mute);
+  --accent: var(--color-off);
+  --accent-foreground: var(--color-ink);
+  --destructive: var(--color-brand);
+  --border: var(--color-line);
+  --input: var(--color-line);
+  --ring: var(--color-brand);
+  --radius: 0.625rem;
+}
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+@theme inline {
+  --font-heading: var(--font-sans);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+}
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background font-sans text-foreground antialiased;
+    line-height: normal;
+  }
+  /* foco visível para quem navega pelo teclado */
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 3px;
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+/* ==================================================================
+   Animações. Ficam em CSS puro (sem framer-motion): são poucas,
+   rodam uma vez, e uma única regra no fim do arquivo desliga todas
+   para quem pediu "reduzir animações".
+   ================================================================== */
+@keyframes fade-in { from { opacity: 0 } to { opacity: 1 } }
+@keyframes rise { from { opacity: 0; translate: 0 16px } to { opacity: 1; translate: 0 0 } }
+/* revela da esquerda para a direita (o "GSL" entrando) */
+@keyframes write-in {
+  from { clip-path: inset(0 100% 0 0); translate: 0 10px }
+  to   { clip-path: inset(0 0 0 0); translate: 0 0 }
+}
+@keyframes pop { from { opacity: 0; scale: .94 } to { opacity: 1; scale: 1 } }
+@keyframes asm-back  { from { opacity: 0; translate: 0 40px } to { opacity: 1; translate: 0 0 } }
+@keyframes asm-card  { from { opacity: 0; translate: 0 -70px } to { opacity: 1; translate: 0 0 } }
+@keyframes asm-front { from { opacity: 0; translate: 0 50px } to { opacity: 1; translate: 0 0 } }
+
+@layer components {
+  /* largura máxima e margens laterais da página */
+  .wrap {
+    @apply mx-auto max-w-[1280px] px-5 md:px-12;
   }
 
-  #social .button-icon {
-    filter: invert(1) brightness(2);
+  /* ---------- Hero ---------- */
+  .hero-rabisco { animation: fade-in .6s ease .1s both; }
+  .hero-gsl     { animation: write-in .75s cubic-bezier(.6, 0, .2, 1) .6s both; }
+  .hero-lab     { animation: fade-in .6s ease .6s both; }
+  .hero-frase   { animation: rise .9s cubic-bezier(.2, .7, .2, 1) 1.5s both; }
+
+  /* ---------- Revelar ao rolar (componente <Reveal>) ---------- */
+  .reveal {
+    opacity: 0;
+    translate: 0 28px;
+    transition: opacity 1s cubic-bezier(.2, .7, .2, 1), translate 1s cubic-bezier(.2, .7, .2, 1);
   }
-}
+  .reveal.is-visible { opacity: 1; translate: 0 0; }
+  .reveal-d1 { transition-delay: .12s; }
+  .reveal-d2 { transition-delay: .24s; }
 
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-}
+  /* ---------- Pastas de vidro ----------
+     O formato de pasta vem de clip-path: polygon() em porcentagem,
+     por isso acompanha qualquer tamanho de pasta.                    */
+  .folder { position: relative; aspect-ratio: 350 / 270; }
+  .folder[data-id="sites"] { aspect-ratio: 5 / 4; }
+  .folder.is-open { z-index: 6; }
 
-body {
-  margin: 0;
-}
-
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
-}
-
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
+  .folder-back {
+    position: absolute; inset: 0; overflow: hidden;
+    clip-path: polygon(0.00% 14.00%, 0.10% 12.96%, 0.40% 12.00%, 0.88% 11.17%, 1.50% 10.54%, 2.22% 10.14%, 3.00% 10.00%, 33.00% 10.00%, 35.50% 9.80%, 37.50% 8.50%, 40.50% 2.20%, 42.50% 0.40%, 45.00% 0.00%, 97.00% 0.00%, 97.78% 0.14%, 98.50% 0.54%, 99.12% 1.17%, 99.60% 2.00%, 99.90% 2.96%, 100.00% 4.00%, 100.00% 96.00%, 99.90% 97.04%, 99.60% 98.00%, 99.12% 98.83%, 98.50% 99.46%, 97.78% 99.86%, 97.00% 100.00%, 3.00% 100.00%, 2.22% 99.86%, 1.50% 99.46%, 0.88% 98.83%, 0.40% 98.00%, 0.10% 97.04%, 0.00% 96.00%);
   }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
+  /* a sombra fica num invólucro: clip-path cortaria a sombra do próprio elemento */
+  .folder-backwrap { position: absolute; inset: 0; filter: drop-shadow(0 16px 26px rgb(43 43 46 / .13)); }
+
+  .folder-front {
+    position: absolute; inset-inline: 0; bottom: 0; height: 72%; z-index: 3;
+    clip-path: polygon(0.00% 5.56%, 0.10% 4.12%, 0.40% 2.78%, 0.88% 1.63%, 1.50% 0.74%, 2.22% 0.19%, 3.00% 0.00%, 34.00% 0.00%, 36.50% 0.30%, 38.50% 1.80%, 42.50% 10.50%, 44.50% 12.20%, 47.00% 12.50%, 97.00% 12.50%, 97.78% 12.69%, 98.50% 13.24%, 99.12% 14.13%, 99.60% 15.28%, 99.90% 16.62%, 100.00% 18.06%, 100.00% 94.44%, 99.90% 95.88%, 99.60% 97.22%, 99.12% 98.37%, 98.50% 99.26%, 97.78% 99.81%, 97.00% 100.00%, 3.00% 100.00%, 2.22% 99.81%, 1.50% 99.26%, 0.88% 98.37%, 0.40% 97.22%, 0.10% 95.88%, 0.00% 94.44%);
+    background: linear-gradient(180deg, rgb(255 255 255 / .66), rgb(255 255 255 / .46));
+    -webkit-backdrop-filter: blur(22px) saturate(150%);
+    backdrop-filter: blur(22px) saturate(150%);
+    box-shadow: inset 0 2px 0 rgb(255 255 255 / .95), inset 0 -40px 60px rgb(255 255 255 / .25);
+    transform-origin: 50% 100%;
+    transition: transform .45s cubic-bezier(.2, .8, .2, 1);
   }
-}
-p {
-  margin: 0;
+
+  .folder-name { display: block; font-weight: 800; font-size: 20px; letter-spacing: -.01em; }
+  .folder[data-id="sites"] .folder-name { font-size: 24px; }
+
+  .folder-shadow {
+    position: absolute; left: 8%; right: 8%; bottom: -20px; height: 34px; pointer-events: none;
+    background: radial-gradient(closest-side, rgb(43 43 46 / .16), rgb(43 43 46 / 0));
+  }
+
+  /* botão invisível que cobre a pasta inteira (abre e fecha) */
+  .folder-toggle { position: absolute; inset: 0; z-index: 4; cursor: pointer; border-radius: 16px; }
+  .folder-toggle:focus-visible { outline-offset: 6px; }
+
+  /* arquivos dentro da pasta */
+  .folder-files { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+  .folder.is-open .folder-files { z-index: 5; pointer-events: auto; }
+
+  .file-card {
+    position: absolute; left: 50%; display: block;
+    transform-origin: 50% 100%;
+    transition: transform .6s cubic-bezier(.2, .85, .25, 1);
+    overflow: hidden; border-radius: 10px; background: #fff; text-align: left; cursor: pointer;
+    box-shadow: 0 10px 24px rgb(43 43 46 / .16), 0 0 0 1px rgb(43 43 46 / .06);
+  }
+  .folder[data-id="sites"]  .file-card { width: 43%;   bottom: 41%; }
+  .folder[data-id="design"] .file-card { width: 30%;   bottom: 25%; }
+  .folder[data-id="video"]  .file-card { width: 25.5%; bottom: 17%; }
+
+  /* desktop: as três pastas têm o mesmo tamanho */
+  @variant md {
+    .folder, .folder[data-id="sites"] { aspect-ratio: 392 / 300; }
+    .folder-name, .folder[data-id="sites"] .folder-name { font-size: 22px; }
+  }
+
+  /* montagem das pastas na primeira vez que aparecem na tela.
+     "backwards" = aplica o estado inicial durante o atraso e depois
+     libera o elemento, para não brigar com o transform do hover/abrir. */
+  .folder:not(.is-assembled) { visibility: hidden; }
+  .folder.is-assembled .folder-backwrap { animation: asm-back .8s cubic-bezier(.2, .8, .2, 1) var(--delay) both; }
+  .folder.is-assembled .folder-shadow   { animation: fade-in 1s ease var(--delay) both; }
+  .folder.is-assembled .file-card       { animation: asm-card .7s cubic-bezier(.2, .8, .2, 1) calc(var(--delay) + .25s + var(--i) * 70ms) backwards; }
+  .folder.is-assembled .folder-front    { animation: asm-front .8s cubic-bezier(.2, .8, .2, 1) calc(var(--delay) + .5s) backwards; }
+
+  /* ---------- Visualizador (lightbox) ---------- */
+  .lightbox-bg   { animation: fade-in .3s ease both; }
+  .lightbox-card { animation: pop .45s cubic-bezier(.2, .9, .25, 1) both; }
 }
 
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
-}
-
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+/* "Reduzir animações" ligado no sistema: tudo aparece pronto. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal { opacity: 1; translate: none; }
+  .folder:not(.is-assembled) { visibility: visible; }
 }

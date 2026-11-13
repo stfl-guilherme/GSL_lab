@@ -1,75 +1,63 @@
-# React + TypeScript + Vite
+# GSL Lab — site-portfólio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+One-page em **Vite + React + TypeScript + Tailwind CSS v4 + shadcn/ui**.
 
-Currently, two official plugins are available:
+## Rodar
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm install      # instala as dependências (uma vez)
+npm run dev      # abre em http://localhost:5173 e recarrega ao salvar
+npm run lint     # confere o código
+npm run build    # gera a versão final em dist/
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Onde fica cada coisa
 
 ```
+src/
+├── main.tsx              liga o React na <div id="root"> do index.html
+├── App.tsx               a página: só a lista de seções, em ordem
+├── index.css             Tailwind + cores da marca + fontes + animações
+├── data/portfolio.ts     conteúdo das pastas (sites, artes, vídeos)
+├── config/contact.ts     links de contato
+├── hooks/
+│   ├── useInView.ts      avisa quando um elemento aparece na tela (1ª vez)
+│   └── useMediaQuery.ts  lê uma media query do CSS (ex.: "tem mouse?")
+├── components/
+│   ├── Header.tsx
+│   ├── Hero.tsx          rabisco em fade → GSL + LAB → frase
+│   ├── About.tsx         + AboutPhoto.tsx (lugar da foto)
+│   ├── Work.tsx          seção das pastas; guarda qual pasta está aberta
+│   ├── Folder.tsx        uma pasta de vidro (hover, abrir, leque)
+│   ├── FolderBack.tsx    arte do fundo de cada pasta
+│   ├── FolderCard.tsx    um arquivo dentro da pasta (+ CardThumb.tsx, a capa)
+│   ├── SiteMockup.tsx    "print" do site (capa do arquivo da pasta Sites)
+│   ├── Lightbox.tsx      visualizador (+ LightboxMedia.tsx, o conteúdo)
+│   ├── Contact.tsx       + ContactCard.tsx
+│   ├── Footer.tsx
+│   ├── Reveal.tsx        faz um bloco surgir ao rolar
+│   ├── Eyebrow.tsx       rótulo vermelho acima dos títulos
+│   ├── Icon.tsx          todos os ícones, escolhidos pela prop "name"
+│   └── ui/dialog.tsx     componente do shadcn/ui usado pelo Lightbox
+└── assets/               imagens (o Vite otimiza e dá nome único no build)
+public/
+├── favicon.png
+└── fonts/                Garet Book e Heavy (.woff2)
+docs/design/              arquivos do design (fonte da verdade)
+```
+
+## A lógica, em 4 ideias
+
+1. **Conteúdo separado da aparência.** Os componentes não sabem quais artes existem: recebem a lista de `data/portfolio.ts` e desenham. Trocar nome, visualizações ou link = mexer só nesse arquivo (contatos: `config/contact.ts`).
+2. **Componentes recebem dados por props.** `Folder` recebe `folder`, `isOpen`, `onToggle`… e só avisa "fui clicada". Quem decide qual pasta está aberta é o `Work`, com `useState`. Como o estado mora no pai, abrir uma pasta fecha a outra.
+3. **Animações em CSS.** As entradas são `@keyframes` no `index.css`. O React só liga ou desliga classes (`is-visible`, `is-open`, `is-assembled`). Uma única regra no fim do CSS respeita "reduzir animações".
+4. **Mobile first.** Classes sem prefixo valem para o celular; `md:` vale a partir de 761 px (o ponto de troca do design). Ex.: `grid md:grid-cols-3`.
+
+## Pendências (procure por `TODO` no código)
+
+- **video-4.jpg:** falta a capa do 4º vídeo (`src/assets/`); até lá aparece uma capa provisória.
+- **Links dos vídeos:** preencha `url` em cada vídeo (`data/portfolio.ts`). Com link, o play do visualizador abre o vídeo.
+- **Visualizações × capas:** confirme qual número vai com qual vídeo.
+- **Contato:** troque os `[...]` em `config/contact.ts` pelos dados reais.
+- **Foto do Sobre:** instruções em `AboutPhoto.tsx`.
+- **Deploy:** GitHub Pages com GitHub Actions (ainda não configurado).
