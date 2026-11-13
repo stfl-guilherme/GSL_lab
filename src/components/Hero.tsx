@@ -27,7 +27,7 @@ export function Hero() {
         <img src={gsl} alt="" className="hero-gsl absolute inset-0 size-full" />
       </div>
 
-      <p className="hero-frase mt-2 px-5 text-center text-tagline">Sites, design e edição de vídeo.</p>
+      <p className="hero-frase mt-2 px-5 text-center text-tagline">Sistemas, design e edição de vídeo.</p>
     </section>
   )
 }

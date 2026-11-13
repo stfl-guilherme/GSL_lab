@@ -39,7 +39,7 @@ export interface VideoItem extends ItemBase {
 
 export type PortfolioItem = SiteItem | ImageItem | VideoItem
 
-export type FolderId = 'sites' | 'design' | 'video'
+export type FolderId = 'sistemas' | 'design' | 'video'
 
 export interface Folder {
   id: FolderId
@@ -54,7 +54,7 @@ export const countLabel = (n: number) => `${n} ${n === 1 ? 'item' : 'itens'}`
 // A ordem aqui é a ordem na página (no celular, Sistemas vem primeiro).
 export const folders: Folder[] = [
   {
-    id: 'sites',
+    id: 'sistemas',
     name: 'Sistemas',
     items: [
       { id: 'portfolio', kind: 'site', name: 'Este portfólio', detail: 'Site pessoal · React + Tailwind' },

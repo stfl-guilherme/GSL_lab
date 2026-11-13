@@ -18,7 +18,7 @@ src/
 ├── main.tsx              liga o React na <div id="root"> do index.html
 ├── App.tsx               a página: só a lista de seções, em ordem
 ├── index.css             Tailwind + cores da marca + fontes + animações
-├── data/portfolio.ts     conteúdo das pastas (sites, artes, vídeos)
+├── data/portfolio.ts     conteúdo das pastas (sistemas, artes, vídeos)
 ├── config/contact.ts     links de contato
 ├── hooks/
 │   ├── useInView.ts      avisa quando um elemento aparece na tela (1ª vez)
@@ -31,7 +31,7 @@ src/
 │   ├── Folder.tsx        uma pasta de vidro (hover, abrir, leque)
 │   ├── FolderBack.tsx    arte do fundo de cada pasta
 │   ├── FolderCard.tsx    um arquivo dentro da pasta (+ CardThumb.tsx, a capa)
-│   ├── SiteMockup.tsx    "print" do site (capa do arquivo da pasta Sites)
+│   ├── SiteMockup.tsx    "print" do site (capa do arquivo da pasta Sistemas)
 │   ├── Lightbox.tsx      visualizador (+ LightboxMedia.tsx, o conteúdo)
 │   ├── Contact.tsx       + ContactCard.tsx
 │   ├── Footer.tsx

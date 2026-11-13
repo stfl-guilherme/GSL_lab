@@ -7,7 +7,7 @@ const film =
 
 // Arte do painel traseiro de cada pasta, com as cores da marca.
 export function FolderBack({ id }: { id: FolderId }) {
-  if (id === 'sites') {
+  if (id === 'sistemas') {
     return (
       <div className="folder-back bg-brand">
         <img src={rabisco} alt="" className="absolute top-[-26%] left-[-12%] w-[124%] max-w-none opacity-55" />

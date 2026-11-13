@@ -18,7 +18,7 @@ No código, as pendências de conteúdo também estão marcadas com `TODO`.
 Conferir em 390 px (celular) e 1440 px (desktop), e também nas larguras do meio.
 
 - [x] Sem rolagem horizontal em 390 px e 1440 px.
-- [x] Pastas: lado a lado e do mesmo tamanho no desktop; empilhadas no celular, com Sites primeiro.
+- [x] Pastas: lado a lado e do mesmo tamanho no desktop; empilhadas no celular, com Sistemas primeiro.
 - [ ] **Leque no celular:** com a pasta aberta em 390 px, os arquivos das pontas encostam na borda da tela e o primeiro fica levemente cortado. Ajustar o leque para caber.
 - [ ] Larguras intermediárias: 320 px (celular pequeno), 761 px (ponto onde o layout muda para desktop), 1024 px (tablet deitado).
 - [ ] Celular deitado (ex.: 844 × 390): o visualizador (lightbox) cabe na altura?

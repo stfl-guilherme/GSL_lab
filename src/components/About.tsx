@@ -5,7 +5,7 @@ import { Reveal } from './Reveal'
 const facts = [
   { label: 'Base', value: 'Júlio de Castilhos/RS' },
   { label: 'Estudo', value: 'Sistemas de Informação' },
-  { label: 'Faço', value: 'Sites, design e vídeo' },
+  { label: 'Faço', value: 'Sistemas, design e vídeo' },
 ]
 
 export function About() {

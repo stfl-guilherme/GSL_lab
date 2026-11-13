@@ -167,7 +167,7 @@
      O formato de pasta vem de clip-path: polygon() em porcentagem,
      por isso acompanha qualquer tamanho de pasta.                    */
   .folder { position: relative; aspect-ratio: 350 / 270; }
-  .folder[data-id="sites"] { aspect-ratio: 5 / 4; }
+  .folder[data-id="sistemas"] { aspect-ratio: 5 / 4; }
   .folder.is-open { z-index: 6; }
 
   .folder-back {
@@ -189,7 +189,7 @@
   }
 
   .folder-name { display: block; font-weight: 800; font-size: 20px; letter-spacing: -.01em; }
-  .folder[data-id="sites"] .folder-name { font-size: 24px; }
+  .folder[data-id="sistemas"] .folder-name { font-size: 24px; }
 
   .folder-shadow {
     position: absolute; left: 8%; right: 8%; bottom: -20px; height: 34px; pointer-events: none;
@@ -211,14 +211,14 @@
     overflow: hidden; border-radius: 10px; background: #fff; text-align: left; cursor: pointer;
     box-shadow: 0 10px 24px rgb(43 43 46 / .16), 0 0 0 1px rgb(43 43 46 / .06);
   }
-  .folder[data-id="sites"]  .file-card { width: 43%;   bottom: 41%; }
+  .folder[data-id="sistemas"]  .file-card { width: 43%;   bottom: 41%; }
   .folder[data-id="design"] .file-card { width: 30%;   bottom: 25%; }
   .folder[data-id="video"]  .file-card { width: 25.5%; bottom: 17%; }
 
   /* desktop: as três pastas têm o mesmo tamanho */
   @variant md {
-    .folder, .folder[data-id="sites"] { aspect-ratio: 392 / 300; }
-    .folder-name, .folder[data-id="sites"] .folder-name { font-size: 22px; }
+    .folder, .folder[data-id="sistemas"] { aspect-ratio: 392 / 300; }
+    .folder-name, .folder[data-id="sistemas"] .folder-name { font-size: 22px; }
   }
 
   /* montagem das pastas na primeira vez que aparecem na tela.
