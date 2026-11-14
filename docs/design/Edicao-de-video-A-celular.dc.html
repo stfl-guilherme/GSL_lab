@@ -1,0 +1,583 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Edição de vídeo — variação A (celular)</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;800&amp;display=swap">
+<style>
+body{margin:0;background:#fff}
+a{color:#2B2B2E}a:hover{color:#C1290A}
+.gsl-root{--red:#C1290A;--gray:#DCDBD8;--ink:#2B2B2E;--mute:#66655F;--off:#F6F5F3;--line:#E9E8E5;font-family:'Montserrat',system-ui,sans-serif;color:var(--ink);background:#fff;-webkit-font-smoothing:antialiased}
+.gsl{container-type:inline-size;container-name:gsl;overflow-x:clip;position:relative}
+.gsl-root *{box-sizing:border-box}
+.gsl-root a{color:var(--ink);text-decoration:none}
+.gsl-root a:hover{color:var(--red)}
+.wrap{max-width:1280px;margin:0 auto;padding:0 48px}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;margin:0}
+.eyebrow{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--red);margin:0 0 20px;font-weight:500}
+.h2{font-weight:800;font-size:clamp(36px,4.8cqi,68px);line-height:1.02;letter-spacing:-.025em;margin:0}
+.ico{fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;display:block}
+.ico .dot{fill:currentColor;stroke:none}
+
+/* cabeçalho */
+.hdr{display:flex;align-items:center;justify-content:space-between;height:88px;position:relative;z-index:10}
+.hdr-logo{display:inline-flex;align-items:center;min-height:44px}
+.hdr-logo img{height:38px;width:auto;display:block}
+
+/* hero base */
+.hero{position:relative;min-height:760px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes rise{from{opacity:0;translate:0 16px}to{opacity:1;translate:0 0}}
+
+/* hero C — linha do tempo */
+.hero-c{align-items:stretch}
+.hc-inner{position:relative;width:100%}
+.hc-title{display:block;width:100%;font-weight:800;font-size:clamp(40px,8.2cqi,126px);line-height:.98;letter-spacing:-.035em;margin:0;animation:wipe 2.6s linear .4s both}
+@keyframes wipe{from{clip-path:inset(-20% 100% -20% 0)}to{clip-path:inset(-20% 0 -20% 0)}}
+.hc-red{color:var(--red)}
+.hc-sub{font-size:18px;line-height:1.55;margin:28px 0 0;max-width:520px;animation:rise .9s cubic-bezier(.2,.7,.2,1) 2.9s both}
+.hc-tl{margin-top:64px;position:relative}
+.hc-ruler{height:26px;border-bottom:1px solid var(--line);background:repeating-linear-gradient(90deg,var(--gray) 0 1px,transparent 1px 32px) left bottom/100% 8px no-repeat;display:flex;justify-content:space-between;font-size:10px;color:var(--mute);font-variant-numeric:tabular-nums;letter-spacing:.06em}
+.hc-track{position:relative;height:36px;margin-top:8px;border-radius:7px;background:var(--off)}
+.hc-clip{position:absolute;top:0;bottom:0;border-radius:7px;display:flex;align-items:center;padding:0 14px;font-size:12px;font-weight:500;letter-spacing:.04em;animation-name:wipe;animation-timing-function:linear;animation-fill-mode:both}
+.hc-clip.c1{left:0;width:42%;background:var(--red);color:#fff;animation-duration:1.09s;animation-delay:.4s}
+.hc-clip.c2{left:30%;width:36%;background:var(--gray);color:var(--ink);animation-duration:.94s;animation-delay:1.18s}
+.hc-clip.c3{left:58%;width:42%;background:var(--ink);color:#fff;animation-duration:1.09s;animation-delay:1.91s;background-image:repeating-linear-gradient(90deg,rgba(255,255,255,.18) 0 2px,transparent 2px 6px);background-size:100% 40%;background-position:left 80%;background-repeat:no-repeat}
+.hc-head{position:absolute;top:-40px;bottom:-8px;left:100%;width:2px;margin-left:-1px;background:var(--red);animation:play 2.6s linear .4s both;z-index:2}
+@keyframes play{from{left:0%}to{left:100%}}
+.hc-tc{position:absolute;top:-28px;left:1px;translate:-50% 0;background:var(--red);color:#fff;font-size:11px;font-weight:500;font-variant-numeric:tabular-nums;padding:5px 8px;border-radius:5px;white-space:nowrap;letter-spacing:.04em}
+
+
+/* revelar ao rolar */
+.rv{transition:opacity 1s cubic-bezier(.2,.7,.2,1),translate 1s cubic-bezier(.2,.7,.2,1)}
+.gsl-root.js .rv:not(.in){opacity:0;translate:0 28px}
+.rv.d1{transition-delay:.12s}.rv.d2{transition-delay:.24s}
+
+.sec{padding:160px 0}
+
+/* vídeos */
+.vids{padding:40px 0 0}
+.vlist{display:flex;flex-direction:column;gap:48px}
+.vcard{display:grid;grid-template-columns:auto minmax(0,1fr);gap:72px;align-items:center;border:1px solid var(--line);border-radius:20px;background:#fff;padding:48px}
+.vp{position:relative;display:block;height:min(72vh,640px);aspect-ratio:9/16;border-radius:12px;overflow:hidden;background:var(--ink)}
+.vp:focus-visible,.vbtn:focus-visible,.dback:focus-visible{outline:2px solid var(--red);outline-offset:4px}
+.vp-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transition:scale .4s ease}
+.vp:hover .vp-img{scale:1.03}
+.vp-veil{position:absolute;inset:0;background:linear-gradient(0deg,rgba(43,43,46,.55),rgba(43,43,46,0) 55%)}
+.vp-mid{position:absolute;left:50%;top:50%;translate:-50% -36px;display:flex;flex-direction:column;align-items:center;gap:14px}
+.vp-play{width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,.92);display:grid;place-items:center;color:var(--red);transition:scale .4s ease}
+.vp:hover .vp-play{scale:1.06}
+.vp-cta{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:500;color:#fff;background:rgba(43,43,46,.82);padding:7px 12px;border-radius:999px;white-space:nowrap}
+.vp-bar{position:absolute;left:14px;right:14px;bottom:16px;height:3px;background:rgba(255,255,255,.35);border-radius:3px}
+.vp-bar span{display:block;width:12%;height:100%;background:var(--red);border-radius:3px}
+.vinfo{display:flex;flex-direction:column;align-items:flex-start;gap:32px}
+.vinfo .eyebrow{margin:0 0 20px}
+.vnum{font-weight:800;font-size:clamp(56px,7.4cqi,112px);line-height:.95;letter-spacing:-.035em;margin:0}
+.vcap{font-size:16px;color:var(--mute);margin:12px 0 0}
+.vdesc{font-size:18px;line-height:1.6;max-width:480px;margin:0}
+.vbtn{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:0 20px;border:1px solid var(--line);border-radius:999px;font-size:15px;font-weight:500;transition:color .3s ease,border-color .3s ease}
+.vbtn:hover{border-color:var(--red)}
+
+/* voltar flutuante (desktop) */
+.dback-wrap{position:sticky;top:calc(50vh - 32px);height:0;z-index:40}
+.dback{position:absolute;left:24px;top:0;width:64px;height:64px;display:grid;place-items:center;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 24px rgba(43,43,46,.10);transition:color .3s ease}
+
+/* barra flutuante (celular) */
+.phone{scrollbar-width:none}
+.phone::-webkit-scrollbar{display:none}
+.mnav{position:sticky;bottom:calc(16px + env(safe-area-inset-bottom, 0px));z-index:40;width:266px;height:64px;margin:24px auto 16px;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 24px rgba(43,43,46,.10);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));overflow:hidden}
+.mnav-it{position:relative;z-index:1;display:grid;place-items:center;height:100%;background:none;border:0;padding:0;margin:0;color:var(--ink);opacity:.4;cursor:pointer;transition:opacity .3s ease}
+.mnav-it.on{opacity:1}
+.mnav-it:focus-visible{outline:2px solid var(--red);outline-offset:-6px;border-radius:12px}
+.mnav-chev{transition:transform .4s ease-in-out}
+.mnav-chev.flip{transform:rotate(180deg)}
+.mnav-light{position:absolute;top:0;left:0;width:88px;height:100%;pointer-events:none;transition:transform .4s ease-in-out}
+.mnav-light::before{content:'';position:absolute;top:0;left:22px;width:44px;height:5px;background:var(--red);border-radius:0 0 5px 5px}
+.mnav-light::after{content:'';position:absolute;top:5px;left:6px;right:6px;height:54px;background:linear-gradient(180deg,rgba(193,41,10,.3),rgba(193,41,10,0));clip-path:polygon(21% 0,79% 0,100% 100%,0 100%)}
+
+
+
+.sec-head{margin-bottom:40px}
+.vtitle{font-weight:800;font-size:clamp(26px,2.6cqi,36px);line-height:1.1;letter-spacing:-.02em;margin:0}
+.vids .eyebrow{margin:0 0 12px}
+.vids .vnum{font-size:clamp(48px,5.6cqi,84px)}
+.ficha{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px 24px;align-items:baseline;width:100%;max-width:480px;margin:0;padding-top:18px;border-top:1px solid var(--line);font-size:15px}
+.ficha dt{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute)}
+.ficha dd{margin:0;font-weight:500}
+
+
+/* A — timeline */
+.tl-sticky{position:sticky;top:0;z-index:30;background:#fff;border-bottom:1px solid var(--line);padding:12px 0 14px}
+.tl-bar{position:relative;padding-top:30px}
+.tl-clips{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;margin-top:8px}
+.tl-clipb{height:36px;border-radius:7px;border:0;margin:0;background:var(--off);color:var(--mute);display:flex;align-items:center;gap:8px;padding:0 14px;font:inherit;font-size:12px;font-weight:500;letter-spacing:.04em;text-align:left;white-space:nowrap;overflow:hidden;cursor:pointer;transition:background .3s ease,color .3s ease}
+.tl-clipb b{font-weight:800}
+.tl-name{overflow:hidden;text-overflow:ellipsis}
+.tl-clipb.on{background:var(--red);color:#fff}
+.tl-clipb:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.tl-needle{position:absolute;top:26px;bottom:-6px;left:0;width:2px;margin-left:-1px;background:var(--red);z-index:2;pointer-events:none}
+.tl-needle .hc-tc{top:-26px}
+.tl-rows{display:flex;flex-direction:column;gap:112px;padding-top:80px}
+.tl-row{display:grid;grid-template-columns:auto minmax(0,1fr);gap:88px;align-items:center}
+.tl-row.flip{grid-template-columns:minmax(0,1fr) auto}
+.tl-row.flip .tl-media{order:2}
+.tl-media{width:315px;transition:filter .5s ease,opacity .5s ease}
+.tl-row:not(.on) .tl-media{filter:grayscale(1);opacity:.55}
+.tl-media .vp{height:auto;width:100%}
+.tl-info{display:flex;flex-direction:column;align-items:flex-start;gap:20px}
+.tl-info .eyebrow{margin:0 0 8px}
+.vline{margin:0;font-size:14px;color:var(--mute)}
+.hc-clip.c3{background-image:repeating-linear-gradient(90deg,rgba(255,255,255,.26) 0 2px,transparent 2px 7px);background-size:calc(100% - 92px) 34%;background-position:right 14px center;background-repeat:no-repeat}
+
+/* contato */
+.contact{position:relative;overflow:hidden}
+.ct-rab{position:absolute;right:-6%;top:60px;width:700px;max-width:none;pointer-events:none}
+.ct-title{font-weight:800;font-size:clamp(40px,6.6cqi,100px);line-height:1;letter-spacing:-.035em;margin:0;position:relative}
+.ct-title span{color:var(--red)}
+.ct-sub{font-size:18px;color:var(--mute);margin:24px 0 0;position:relative}
+.ct-list{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin:72px 0 0;padding:0;list-style:none;border-top:1px solid var(--line);position:relative;background:#fff}
+.ct-list li{border-right:1px solid var(--line)}
+.ct-list li:last-child{border-right:0}
+.ct{display:flex;flex-direction:column;gap:28px;padding:28px 24px 32px;min-height:190px;transition:background .3s ease}
+.ct:hover{background:var(--off)}
+.ct-row{display:flex;justify-content:space-between;align-items:center}
+.ct-ico{width:48px;height:48px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;color:var(--ink);transition:background .3s ease,border-color .3s ease,color .3s ease}
+.ct:hover .ct-ico{background:var(--red);border-color:var(--red);color:#fff}
+.ct-arrow{color:var(--mute);transition:translate .3s ease}
+.ct:hover .ct-arrow{translate:3px -3px;color:var(--red)}
+.ct-lab{display:block;font-weight:800;font-size:18px}
+.ct-val{display:block;font-size:14px;color:var(--mute);margin-top:6px}
+
+/* rodapé */
+.ftr{border-top:1px solid var(--line);padding:40px 0 48px}
+.ftr .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px}
+.ftr img{width:120px;height:auto;display:block}
+.ftr p{margin:0;font-size:13px;color:var(--mute)}
+
+@container gsl (max-width: 760px){
+.wrap{padding:0 20px}
+.hdr{height:72px}
+.hdr-logo img{height:28px}
+.hero{min-height:700px}
+.hc-sub{font-size:16px}
+.hc-tl{margin-top:56px}
+.hc-clip{font-size:11px;padding:0 10px}
+.sec{padding:128px 0}
+.vids{padding:96px 0 0}
+.vlist{gap:24px}
+.vcard{grid-template-columns:minmax(0,1fr);gap:24px;padding:16px 16px 28px}
+.vp{height:auto;width:100%}
+.vinfo{gap:24px;padding:0 4px}
+.vnum{font-size:56px}
+.vdesc{font-size:17px}
+.ct-rab{width:440px;right:-38%;top:24px}
+.ct-list{grid-template-columns:minmax(0,1fr);margin-top:64px}
+.ct-list li{border-right:0;border-bottom:1px solid var(--line)}
+.ct{flex-direction:row;align-items:center;min-height:0;padding:20px 4px;gap:16px}
+.ct-row{display:contents}
+.ct-ico{order:1;width:44px;height:44px}
+.ct-txt{order:2}
+.ct-arrow{order:3;margin-left:auto}
+.ftr .wrap{flex-direction:column;align-items:flex-start}
+
+
+.sec-head{margin-bottom:56px}
+.tl-rows{gap:144px;padding-top:8px}
+.tl-row,.tl-row.flip{grid-template-columns:minmax(0,1fr);gap:28px}
+.tl-row.flip .tl-media{order:0}
+.tl-media{width:100%}
+.tl-media .vp-bar{display:none}
+.tl-info{gap:24px;padding:0 4px}
+.hc-clip.c3{background-size:calc(100% - 64px) 34%;background-position:right 10px center}
+}
+
+@media (prefers-reduced-motion: reduce){
+.gsl-root *,.gsl-root *::before,.gsl-root *::after{animation:none !important;transition:none !important}
+.gsl-root.js .rv:not(.in){opacity:1;translate:none}
+}
+
+</style>
+</helmet>
+
+<div class="gsl-root {{rootCls}}" style="width: 390px; margin: 0 auto">
+
+<div class="gsl">
+
+<header class="wrap hdr">
+<a class="hdr-logo" href="Mobile.dc.html"><img src="/_blob/9bf1cb7affebdbf0caf39d0433666052" alt="GSL Lab — voltar ao início"></a>
+</header>
+
+<main>
+<section class="hero hero-c" ref="{{refs.hero}}" aria-labelledby="hc-h1">
+<div class="wrap" style="width: 100%">
+<p class="eyebrow" style="animation: rise .8s cubic-bezier(.2,.7,.2,1) .1s both">GSL Lab · Edição de vídeo</p>
+<div class="hc-inner">
+<h1 class="hc-title" id="hc-h1">Edição de <span class="hc-red">vídeo.</span></h1>
+<div class="hc-tl" aria-hidden="true">
+<div class="hc-ruler"><span>00:00</span><span>00:01</span><span>00:02</span><span>00:03</span></div>
+<div class="hc-track"><span class="hc-clip c1">Vídeo</span></div>
+<div class="hc-track"><span class="hc-clip c2">Legendas</span></div>
+<div class="hc-track"><span class="hc-clip c3">Áudio</span></div>
+</div>
+<div class="hc-head" aria-hidden="true"><span class="hc-tc">{{tc}}</span></div>
+</div>
+<p class="hc-sub">Cortes verticais para Reels e Shorts: ritmo, legenda e som pensados para prender quem está rolando o feed.</p>
+</div>
+</section>
+
+<section class="vids" aria-labelledby="vids-h">
+<div class="wrap sec-head rv {{rv.vhead}}" ref="{{refs.vhead}}">
+<div>
+<p class="eyebrow">Os cortes</p>
+<h2 class="h2" id="vids-h">Na linha do tempo.</h2>
+</div>
+</div>
+<div class="wrap tl-rows">
+<article class="tl-row rv {{rv.v0}} {{row.r0}}" ref="{{refs.v0}}" aria-labelledby="v0-h">
+<div class="tl-media">
+<a class="vp" href="https://www.instagram.com/gsl_lab/" target="_blank" rel="noreferrer" aria-label="Assistir Corte – Byte Papo no Instagram (abre em nova aba)">
+<img class="vp-img" src="/_blob/2df611b70b2bb51536ea20bae9aad511" alt="">
+<span class="vp-veil"></span>
+<span class="vp-mid"><span class="vp-play"><svg class="ico" width="28" height="28" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5.5v13l10-6.5z" style="fill: currentColor"></path></svg></span><span class="vp-cta">Assistir no Instagram<svg class="ico" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17L17 7M9 7h8v8"></path></svg></span></span>
+<span class="vp-bar"><span></span></span>
+</a>
+</div>
+<div class="tl-info">
+<div>
+<p class="eyebrow">Vídeo 01</p>
+<h3 class="vtitle" id="v0-h">Corte – Byte Papo</h3>
+</div>
+<div>
+<p class="vnum">16 mil</p>
+<p class="vcap">visualizações</p>
+</div>
+<p class="vdesc">[Descrição do vídeo]</p>
+<p class="vline">[00:00] · corte, legendas, trilha [ajustar]</p>
+</div>
+</article>
+<article class="tl-row flip rv {{rv.v1}} {{row.r1}}" ref="{{refs.v1}}" aria-labelledby="v1-h">
+<div class="tl-media">
+<a class="vp" href="https://www.instagram.com/gsl_lab/" target="_blank" rel="noreferrer" aria-label="Assistir Corte – Byte Papo no Instagram (abre em nova aba)">
+<img class="vp-img" src="/_blob/efb6000b2f29825853289c25fecbaa27" alt="">
+<span class="vp-veil"></span>
+<span class="vp-mid"><span class="vp-play"><svg class="ico" width="28" height="28" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5.5v13l10-6.5z" style="fill: currentColor"></path></svg></span><span class="vp-cta">Assistir no Instagram<svg class="ico" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17L17 7M9 7h8v8"></path></svg></span></span>
+<span class="vp-bar"><span></span></span>
+</a>
+</div>
+<div class="tl-info">
+<div>
+<p class="eyebrow">Vídeo 02</p>
+<h3 class="vtitle" id="v1-h">Corte – Byte Papo</h3>
+</div>
+<div>
+<p class="vnum">9,9 mil</p>
+<p class="vcap">visualizações</p>
+</div>
+<p class="vdesc">[Descrição do vídeo]</p>
+<p class="vline">[00:00] · corte, legendas, trilha [ajustar]</p>
+</div>
+</article>
+<article class="tl-row rv {{rv.v2}} {{row.r2}}" ref="{{refs.v2}}" aria-labelledby="v2-h">
+<div class="tl-media">
+<a class="vp" href="https://www.instagram.com/gsl_lab/" target="_blank" rel="noreferrer" aria-label="Assistir Corte – Saber Sabor no Instagram (abre em nova aba)">
+<img class="vp-img" src="/_blob/9c111844b8683a87d4de949fe989abd5" alt="">
+<span class="vp-veil"></span>
+<span class="vp-mid"><span class="vp-play"><svg class="ico" width="28" height="28" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5.5v13l10-6.5z" style="fill: currentColor"></path></svg></span><span class="vp-cta">Assistir no Instagram<svg class="ico" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17L17 7M9 7h8v8"></path></svg></span></span>
+<span class="vp-bar"><span></span></span>
+</a>
+</div>
+<div class="tl-info">
+<div>
+<p class="eyebrow">Vídeo 03</p>
+<h3 class="vtitle" id="v2-h">Corte – Saber Sabor</h3>
+</div>
+<div>
+<p class="vnum">7,9 mil</p>
+<p class="vcap">visualizações</p>
+</div>
+<p class="vdesc">[Descrição do vídeo]</p>
+<p class="vline">[00:00] · corte, legendas, trilha [ajustar]</p>
+</div>
+</article>
+<article class="tl-row flip rv {{rv.v3}} {{row.r3}}" ref="{{refs.v3}}" aria-labelledby="v3-h">
+<div class="tl-media">
+<a class="vp" href="https://www.instagram.com/gsl_lab/" target="_blank" rel="noreferrer" aria-label="Assistir [Nome do vídeo 4] no Instagram (abre em nova aba)">
+
+<span class="vp-veil"></span>
+<span class="vp-mid"><span class="vp-play"><svg class="ico" width="28" height="28" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5.5v13l10-6.5z" style="fill: currentColor"></path></svg></span><span class="vp-cta">Assistir no Instagram<svg class="ico" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17L17 7M9 7h8v8"></path></svg></span></span>
+<span class="vp-bar"><span></span></span>
+</a>
+</div>
+<div class="tl-info">
+<div>
+<p class="eyebrow">Vídeo 04</p>
+<h3 class="vtitle" id="v3-h">[Nome do vídeo 4]</h3>
+</div>
+<div>
+<p class="vnum">5,2 mil</p>
+<p class="vcap">visualizações</p>
+</div>
+<p class="vdesc">[Descrição do vídeo]</p>
+<p class="vline">[00:00] · corte, legendas, trilha [ajustar]</p>
+</div>
+</article>
+</div>
+</section>
+
+<section class="sec contact" id="contato" ref="{{refs.contact}}" aria-labelledby="ct-h">
+<img class="ct-rab" src="/_blob/8a588b2d2c791c61b58c97bb1ec7ff3a" alt="">
+<div class="wrap">
+<div class="rv {{rv.ctHead}}" ref="{{refs.ctHead}}">
+<p class="eyebrow" style="position: relative">Contato</p>
+<h2 class="ct-title" id="ct-h">Tem uma ideia?<br><span>Vamos conversar.</span></h2>
+<p class="ct-sub">Respondo por qualquer um destes canais.</p>
+</div>
+<ul class="ct-list rv d1 {{rv.ctList}}" ref="{{refs.ctList}}">
+<li><a class="ct" href="https://www.linkedin.com/in/[seu-perfil]">
+<span class="ct-row"><span class="ct-ico"><svg class="ico" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="4"></rect><path d="M8 10.5V17"></path><circle class="dot" cx="8" cy="7.4" r="1.1"></circle><path d="M12 17v-6.5M12 13.5a2.6 2.6 0 0 1 5 0V17"></path></svg></span><svg class="ico ct-arrow" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17L17 7M9 7h8v8"></path></svg></span>
+<span class="ct-txt"><span class="ct-lab">LinkedIn</span><span class="ct-val">/in/[seu-perfil]</span></span>
+</a></li>
+<li><a class="ct" href="mailto:[seu-email]@gmail.com">
+<span class="ct-row"><span class="ct-ico"><svg class="ico" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2.5"></rect><path d="M3.5 7l8.5 6 8.5-6"></path></svg></span><svg class="ico ct-arrow" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17L17 7M9 7h8v8"></path></svg></span>
+<span class="ct-txt"><span class="ct-lab">Gmail</span><span class="ct-val">[seu-email]@gmail.com</span></span>
+</a></li>
+<li><a class="ct" href="https://wa.me/55[DDD-e-número]">
+<span class="ct-row"><span class="ct-ico"><svg class="ico" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.5 11.6a8.5 8.5 0 0 1-12.4 7.6L3.5 20.5l1.3-4.4a8.5 8.5 0 1 1 15.7-4.5z"></path><path d="M9 8.6c.2 2.9 2.6 5.5 5.6 6.1l1.2-1.4-1.9-1-1 .8a4.4 4.4 0 0 1-2.2-2.3l.8-1-.9-2z"></path></svg></span><svg class="ico ct-arrow" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17L17 7M9 7h8v8"></path></svg></span>
+<span class="ct-txt"><span class="ct-lab">WhatsApp</span><span class="ct-val">(55) [seu número]</span></span>
+</a></li>
+<li><a class="ct" href="https://www.instagram.com/gsl_lab/">
+<span class="ct-row"><span class="ct-ico"><svg class="ico" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle class="dot" cx="17.2" cy="6.8" r="1.1"></circle></svg></span><svg class="ico ct-arrow" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17L17 7M9 7h8v8"></path></svg></span>
+<span class="ct-txt"><span class="ct-lab">Instagram</span><span class="ct-val">@gsl_lab</span></span>
+</a></li>
+</ul>
+</div>
+</section>
+</main>
+
+<footer class="ftr">
+<div class="wrap">
+<img src="/_blob/13036b753da7005bf5fc3c9d67bc7a31" alt="GSL Lab — Desenvolvendo ideias">
+<p>Júlio de Castilhos/RS</p>
+<p>© 2026 GSL Lab</p>
+</div>
+</footer>
+</div>
+
+<nav class="mnav" aria-label="Navegação da página">
+<span class="mnav-light" style="{{lightStyle}}" aria-hidden="true"></span>
+<a class="mnav-it" href="Mobile.dc.html" aria-label="Voltar ao início"><svg class="ico" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg></a>
+<button class="mnav-it {{nextCls}}" type="button" aria-label="{{nextLabel}}" onClick="{{goNext}}"><svg class="ico mnav-chev {{chevCls}}" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6"></path></svg></button>
+<button class="mnav-it {{ctCls}}" type="button" aria-label="Contato" onClick="{{goContact}}"><svg class="ico" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2.5"></rect><path d="M3.5 7l8.5 6 8.5-6"></path></svg></button>
+</nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":6450}}'>
+
+class Component extends DCLogic {
+  state = { ready: false, seen: {}, tc: '00:00:00:00', cur: -1, atContact: false, p: 0, nums: [0, 0, 0, 0], sel: 0 };
+
+  componentDidMount() {
+    const mm = (q) => typeof window !== 'undefined' && window.matchMedia && window.matchMedia(q).matches;
+    this.reduce = mm('(prefers-reduced-motion: reduce)');
+    this.setState({ ready: true });
+    this.startTc();
+    this.schedule();
+    this.fallback = setTimeout(() => { if (!this.refCalled) this.markAll(); }, 900);
+    if ('A' === 'A') {
+      // a agulha acompanha a rolagem
+      this.onScroll = () => {
+        if (this.sraf) return;
+        this.sraf = requestAnimationFrame(() => { this.sraf = null; this.measure(); });
+      };
+      window.addEventListener('scroll', this.onScroll, { passive: true });
+      window.addEventListener('resize', this.onScroll);
+      this.mt = setTimeout(() => this.measure(), 150);
+    }
+  }
+  componentWillUnmount() {
+    ['ioRv', 'ioSpy', 'ioCt', 'ioCnt'].forEach((k) => { if (this[k]) this[k].disconnect(); });
+    if (this.raf) cancelAnimationFrame(this.raf);
+    if (this.sraf) cancelAnimationFrame(this.sraf);
+    if (this.onScroll) { window.removeEventListener('scroll', this.onScroll); window.removeEventListener('resize', this.onScroll); }
+    clearTimeout(this.fallback); clearTimeout(this.sch); clearTimeout(this.mt);
+  }
+
+  startTc() {
+    const fps = 30, end = Math.round(2.6 * fps);
+    const fmt = (f) => '00:00:' + String(Math.floor(f / fps)).padStart(2, '0') + ':' + String(f % fps).padStart(2, '0');
+    if (this.reduce) { this.setState({ tc: fmt(end) }); return; }
+    const t0 = performance.now() + 400;
+    let last = -1;
+    const tick = (now) => {
+      const f = Math.max(0, Math.min(end, Math.floor((now - t0) / 1000 * fps)));
+      if (f !== last) { last = f; this.setState({ tc: fmt(f) }); }
+      if (f < end) this.raf = requestAnimationFrame(tick);
+    };
+    this.raf = requestAnimationFrame(tick);
+  }
+
+  refFor(key) {
+    if (!this._rf) this._rf = {};
+    if (!this._rf[key]) {
+      this._rf[key] = (el) => {
+        if (!el) return;
+        this.refCalled = true;
+        if (!this.els) this.els = {};
+        if (this.els[key] !== el) { this.els[key] = el; if (this.obs) delete this.obs[key]; }
+        this.schedule();
+      };
+    }
+    return this._rf[key];
+  }
+  schedule() {
+    if (this.sch) return;
+    this.sch = setTimeout(() => { this.sch = null; this.observe(); if ('A' === 'A') this.measure(); }, 0);
+  }
+  markAll() {
+    this.setState({ seen: { vhead: true, v0: true, v1: true, v2: true, v3: true, ctHead: true, ctList: true }, nums: [16, 9.9, 7.9, 5.2].slice() });
+  }
+  mark(key) {
+    if (this.state.seen[key]) return;
+    this.setState((s) => ({ seen: Object.assign({}, s.seen, { [key]: true }) }));
+  }
+  observe() {
+    const els = this.els || {};
+    if (typeof IntersectionObserver === 'undefined') { this.markAll(); return; }
+    if (!this.ioRv) {
+      this.ioRv = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) { this.mark(e.target.getAttribute('data-k')); this.ioRv.unobserve(e.target); }
+        });
+      }, { threshold: 0.1 });
+      this.ioSpy = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          const k = e.target.getAttribute('data-k');
+          this.setState({ cur: k === 'hero' ? -1 : Number(k.slice(1)) });
+        });
+      }, { rootMargin: '-45% 0px -45% 0px' });
+      this.ioCt = new IntersectionObserver((entries) => {
+        entries.forEach((e) => this.setState({ atContact: e.isIntersecting }));
+      }, { rootMargin: '0px 0px -30% 0px' });
+      this.ioCnt = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) { this.countUp(Number(e.target.getAttribute('data-k').slice(1))); this.ioCnt.unobserve(e.target); }
+        });
+      }, { threshold: 0.35 });
+    }
+    if (!this.obs) this.obs = {};
+    Object.keys(els).forEach((k) => {
+      if (this.obs[k] || k === 'track') return;
+      this.obs[k] = true;
+      const el = els[k], isV = /^v\d$/.test(k);
+      el.setAttribute('data-k', k);
+      if (isV || k === 'vhead' || k === 'ctHead' || k === 'ctList') this.ioRv.observe(el);
+      if ('A' !== 'A' && (isV || k === 'hero') && ('A' === 'B' || true)) this.ioSpy.observe(el);
+      if ('A' === 'B' && isV) this.ioCnt.observe(el);
+      if (k === 'contact') this.ioCt.observe(el);
+    });
+  }
+
+  // A: posição da agulha = em que ponto da lista está o meio da tela
+  measure() {
+    const els = this.els || {};
+    const rows = [0, 1, 2, 3].map((i) => els['v' + i]);
+    if (rows.some((r) => !r)) return;
+    const c = (window.innerHeight || 0) * 0.5;
+    const tops = rows.map((r) => r.getBoundingClientRect().top);
+    const end = rows[3].getBoundingClientRect().bottom;
+    let cur = -1;
+    tops.forEach((t, i) => { if (t <= c) cur = i; });
+    let p = 0;
+    if (cur >= 0) {
+      const a = tops[cur], b = cur < 3 ? tops[cur + 1] : end;
+      p = (cur + Math.max(0, Math.min(1, (c - a) / ((b - a) || 1)))) / 4;
+    }
+    if (cur !== this.state.cur || Math.abs(p - this.state.p) > 0.002) this.setState({ cur, p });
+  }
+
+  // B: visualizações contando de 0 até o número
+  countUp(i) {
+    if (!this.counted) this.counted = {};
+    if (this.counted[i]) return;
+    this.counted[i] = true;
+    const target = [16, 9.9, 7.9, 5.2][i];
+    const set = (v) => this.setState((s) => { const n = s.nums.slice(); n[i] = v; return { nums: n }; });
+    if (this.reduce) { set(target); return; }
+    const t0 = performance.now(), dur = 1200;
+    const step = (now) => {
+      const t = Math.min(1, (now - t0) / dur);
+      set(target * (1 - Math.pow(1 - t, 3)));
+      if (t < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+
+  scrollToKey(key, off) {
+    const el = (this.els || {})[key];
+    if (!el) return;
+    const top = el.getBoundingClientRect().top + (window.pageYOffset || 0) - (off || 12);
+    window.scrollTo({ top, behavior: this.reduce ? 'auto' : 'smooth' });
+  }
+
+  renderVals() {
+    const s = this.state;
+    const keys = ['hero', 'vhead', 'v0', 'v1', 'v2', 'v3', 'contact', 'ctHead', 'ctList', 'track'];
+    const refs = {}, rv = {};
+    keys.forEach((k) => { refs[k] = this.refFor(k); rv[k] = s.seen[k] ? 'in' : ''; });
+    const atEnd = s.cur >= 4 - 1 || s.atContact;
+    const act = Math.max(0, s.cur);
+    const pad = (n) => String(n).padStart(2, '0');
+    const row = {}, clip = {}, go = {}, im = {}, num = {}, card = {}, pressed = {}, pick = {}, open = {};
+    [0, 1, 2, 3].forEach((i) => {
+      row['r' + i] = act === i ? 'on' : '';
+      clip['c' + i] = act === i ? 'on' : '';
+      go['g' + i] = () => this.scrollToKey('v' + i, 12);
+      im['i' + i] = act === i ? 'on' : '';
+      num['n' + i] = s.nums[i].toFixed([0, 1, 1, 1][i]).replace('.', ',') + ' mil';
+      card['c' + i] = s.sel === i ? 'on' : '';
+      pressed['c' + i] = s.sel === i ? 'true' : 'false';
+      pick['p' + i] = () => this.setState({ sel: s.sel === i ? -1 : i });
+      open['o' + i] = s.sel === i;
+    });
+    const slide = (dir) => () => {
+      const t = (this.els || {}).track;
+      if (t && t.scrollBy) t.scrollBy({ left: dir * 364, behavior: this.reduce ? 'auto' : 'smooth' });
+    };
+    return {
+      rootCls: s.ready ? 'js' : '',
+      tc: s.tc, refs, rv,
+      // barra do celular
+      lightStyle: 'transform: translateX(' + (s.atContact ? 176 : 88) + 'px)',
+      nextCls: s.atContact ? '' : 'on',
+      ctCls: s.atContact ? 'on' : '',
+      chevCls: atEnd ? 'flip' : '',
+      nextLabel: atEnd ? 'Voltar ao primeiro vídeo' : 'Próximo vídeo',
+      goNext: () => this.scrollToKey('v' + (atEnd ? 0 : s.cur + 1), 12),
+      goContact: () => this.scrollToKey('contact', 12),
+      // A
+      row, clip, go,
+      needleStyle: 'left: ' + (s.p * 100).toFixed(2) + '%',
+      needleLabel: pad(act + 1) + ' / 04',
+      // B
+      im, num,
+      countLabel: pad(act + 1) + ' / 04',
+      nowTitle: ["Corte – Byte Papo", "Corte – Byte Papo", "Corte – Saber Sabor", "[Nome do vídeo 4]"][act],
+      igLabel: 'Assistir ' + ["Corte – Byte Papo", "Corte – Byte Papo", "Corte – Saber Sabor", "[Nome do vídeo 4]"][act] + ' no Instagram (abre em nova aba)',
+      // C
+      card, pressed, pick, open,
+      closePanel: () => this.setState({ sel: -1 }),
+      prev: slide(-1), next: slide(1)
+    };
+  }
+}
+</script>
+</body>
+</html>

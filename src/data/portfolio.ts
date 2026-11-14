@@ -1,14 +1,12 @@
 // Todo o CONTEÚDO das pastas fica aqui. Os componentes só desenham o que
-// recebem. Para trocar um nome, um número de visualizações ou um link,
-// você mexe neste arquivo e em nenhum outro.
+// recebem. Para trocar um nome ou um link, você mexe neste arquivo.
+// Exceção: os vídeos ficam em videos.ts (a página de Edição usa os mesmos).
 
 import design1 from '@/assets/design-1.jpg'
 import design2 from '@/assets/design-2.jpg'
 import design3 from '@/assets/design-3.jpg'
 import design4 from '@/assets/design-4.jpg'
-import video1 from '@/assets/video-1.jpg'
-import video2 from '@/assets/video-2.jpg'
-import video3 from '@/assets/video-3.jpg'
+import { formatarVisualizacoes, temLink, videos } from './videos'
 
 // ---------- Tipos ----------
 // Cada item tem um campo "kind" que diz o que ele é. O TypeScript usa esse
@@ -73,15 +71,15 @@ export const folders: Folder[] = [
   {
     id: 'video',
     name: 'Edição de vídeo',
-    // TODO: confirmar qual capa corresponde a qual número de visualizações
-    // e preencher "url" com o link de cada vídeo publicado.
-    items: [
-      { id: 'v1', kind: 'video', name: 'Corte – Byte Papo', detail: '16 mil visualizações', thumbnail: video1, url: '' },
-      { id: 'v2', kind: 'video', name: 'Corte – Byte Papo', detail: '9,9 mil visualizações', thumbnail: video2, url: '' },
-      { id: 'v3', kind: 'video', name: 'Corte – Saber Sabor', detail: '7,9 mil visualizações', thumbnail: video3, url: '' },
-      // TODO: falta a capa. Coloque src/assets/video-4.jpg, importe lá em cima
-      // (import video4 from '@/assets/video-4.jpg') e adicione thumbnail: video4.
-      { id: 'v4', kind: 'video', name: '[Nome do vídeo 4]', detail: '5,2 mil visualizações', url: '' },
-    ],
+    // Os vídeos vêm de videos.ts. Aqui só "traduzimos" cada Video para o
+    // formato de item da pasta. .map() devolve um array novo, item a item.
+    items: videos.map((v) => ({
+      id: v.id,
+      kind: 'video' as const, // "as const": o tipo é o literal 'video', não string
+      name: v.titulo,
+      detail: `${formatarVisualizacoes(v.visualizacoes)} visualizações`,
+      thumbnail: v.poster,
+      url: temLink(v.instagramUrl) ? v.instagramUrl : '',
+    })),
   },
 ]

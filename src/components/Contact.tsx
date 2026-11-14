@@ -1,12 +1,25 @@
 import rabisco from '@/assets/hero-rabisco-lab.png'
 import { contacts } from '@/config/contact'
+import { cn } from '@/lib/utils'
 import { ContactCard } from './ContactCard'
 import { Eyebrow } from './Eyebrow'
 import { Reveal } from './Reveal'
 
-export function Contact() {
+interface ContactProps {
+  // 'home' (padrão) = como sempre foi. 'pagina' = páginas internas, que no
+  // CELULAR têm mais respiro. No desktop as duas são iguais.
+  variant?: 'home' | 'pagina'
+}
+
+export function Contact({ variant = 'home' }: ContactProps) {
+  const pagina = variant === 'pagina'
+
   return (
-    <section id="contato" aria-labelledby="contato-titulo" className="relative overflow-hidden py-24 md:py-40">
+    <section
+      id="contato"
+      aria-labelledby="contato-titulo"
+      className={cn('relative overflow-hidden md:py-40', pagina ? 'py-32' : 'py-24')}
+    >
       <img
         src={rabisco}
         alt=""
@@ -25,10 +38,10 @@ export function Contact() {
         </Reveal>
 
         <Reveal delay={1}>
-          <ul className="mt-12 grid border-t border-line bg-white md:mt-18 md:grid-cols-4">
+          <ul className={cn('grid border-t border-line bg-white md:mt-18 md:grid-cols-4', pagina ? 'mt-16' : 'mt-12')}>
             {contacts.map((contact) => (
               <li key={contact.label} className="border-b border-line md:border-r md:border-b-0 md:last:border-r-0">
-                <ContactCard contact={contact} />
+                <ContactCard contact={contact} espacoso={pagina} />
               </li>
             ))}
           </ul>

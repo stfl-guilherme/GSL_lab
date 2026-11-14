@@ -7,6 +7,7 @@ One-page em **Vite + React + TypeScript + Tailwind CSS v4 + shadcn/ui**.
 ```bash
 npm install      # instala as dependências (uma vez)
 npm run dev      # abre em http://localhost:5173 e recarrega ao salvar
+npm run dev:lan  # igual ao dev, mas acessível na rede (celular no mesmo Wi-Fi: http://IP-DO-PC:5173)
 npm run lint     # confere o código
 npm run build    # gera a versão final em dist/
 ```
