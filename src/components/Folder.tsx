@@ -1,8 +1,16 @@
 import { useLayoutEffect, useRef, useState, type CSSProperties, type MouseEvent, type Ref } from 'react'
-import { countLabel, type Folder as FolderData, type PortfolioItem } from '@/data/portfolio'
+import { countLabel, type Folder as FolderData, type FolderId, type PortfolioItem } from '@/data/portfolio'
 import { cn } from '@/lib/utils'
 import { FolderBack } from './FolderBack'
 import { FolderCard } from './FolderCard'
+
+// Pastas que têm página própria: aberta, o segundo clique navega (ver Work.tsx).
+// Partial<Record<...>>: um objeto cujas chaves são FolderId, mas nem todas
+// precisam existir (Design não tem página).
+const PAGINAS: Partial<Record<FolderId, { label: string; chamada: string }>> = {
+  video: { label: 'Abrir página de Edição de vídeo', chamada: 'Ver todos os vídeos →' },
+  sistemas: { label: 'Abrir página de Sistemas', chamada: 'Ver todos os sistemas →' },
+}
 
 interface FolderProps {
   ref?: Ref<HTMLDivElement> // o Work usa para saber se um clique caiu dentro da pasta
@@ -33,8 +41,9 @@ export function Folder({ ref, folder, index, isOpen, assembled, canHover, onActi
 
   const hovering = canHover && !isOpen && tilt !== null
   const n = folder.items.length
-  // pasta de vídeo aberta: o próximo clique leva à página de Edição
-  const leadsToPage = folder.id === 'video' && isOpen
+  // pasta com página própria (Vídeo, Sistemas) aberta: o próximo clique leva à página
+  const pagina = PAGINAS[folder.id]
+  const leadsToPage = pagina !== undefined && isOpen
 
   // Ao FECHAR (por Esc, clique fora ou clique na pasta): se o foco estava
   // num arquivo, ele vai sumir (inert), e quem usa teclado ficaria "perdido".
@@ -98,7 +107,7 @@ export function Folder({ ref, folder, index, isOpen, assembled, canHover, onActi
 
   // o que o leitor de tela anuncia no botão
   const label = leadsToPage
-    ? 'Abrir página de Edição de vídeo'
+    ? pagina.label
     : `${isOpen ? 'Fechar' : 'Abrir'} pasta ${folder.name}, ${countLabel(n)}`
 
   return (
@@ -161,14 +170,14 @@ export function Folder({ ref, folder, index, isOpen, assembled, canHover, onActi
             <span className={cn('block text-mute transition-opacity duration-300', leadsToPage && 'opacity-0')}>
               {countLabel(n)}
             </span>
-            {folder.id === 'video' && (
+            {pagina && (
               <span
                 className={cn(
                   'absolute inset-0 font-medium whitespace-nowrap text-[#C1290A] transition-opacity duration-300',
                   !leadsToPage && 'opacity-0',
                 )}
               >
-                Ver todos os vídeos →
+                {pagina.chamada}
               </span>
             )}
           </span>

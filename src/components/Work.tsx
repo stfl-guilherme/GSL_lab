@@ -30,10 +30,12 @@ export function Work() {
   // Clique no botão de uma pasta:
   //   fechada                → abre (e fecha a outra, porque openId é um só)
   //   aberta + Edição vídeo  → vai para a página de Edição
+  //   aberta + Sistemas      → vai para a página de Sistemas
   //   aberta + outras        → fecha
   function handleActivate(id: FolderId) {
     if (openId !== id) setOpenId(id)
     else if (id === 'video') navigate('/edicao-de-video')
+    else if (id === 'sistemas') navigate('/sistemas')
     else setOpenId(null)
   }
 
