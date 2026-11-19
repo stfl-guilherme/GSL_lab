@@ -55,6 +55,7 @@ Quando o sistema está com "reduzir animações" ligado, o site deve aparecer pr
 - [ ] **Decidir sobre o repositório:** `stfl-guilherme/GSL_lab` está **privado**. No plano gratuito, o GitHub Pages só funciona com repositório público. Opções: deixar público, ou usar outro serviço.
 - [ ] Confirmar o nome do repositório (define o `base` do Vite; hoje seria `/GSL_lab/`).
 - [ ] Configurar `base` no `vite.config.ts` e conferir que fontes e imagens carregam nesse caminho.
+- [ ] **Caminhos das fontes:** `src/index.css` usa `url("/fonts/...")`, que quebra quando o site mora numa subpasta (`/GSL_lab/`). Trocar por um caminho que respeite o `base`. (Os prints de `public/sistemas/` já usam `import.meta.env.BASE_URL` em `src/data/sistemas.ts`.)
 - [ ] Criar o workflow `.github/workflows/deploy.yml`.
 - [ ] No GitHub: Settings → Pages → Source: GitHub Actions.
 - [ ] Abrir o site publicado e repetir o teste rápido no celular.
