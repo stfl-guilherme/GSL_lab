@@ -11,9 +11,9 @@ No código, as pendências de conteúdo também estão marcadas com `TODO`.
 - [ ] **Visualizações × capas:** confirmar qual número (16 mil, 9,9 mil, 7,9 mil, 5,2 mil) vai com qual vídeo.
 - [ ] **Contatos reais:** trocar os `[...]` de LinkedIn, Gmail e WhatsApp em `src/config/contact.ts`. O Instagram já está como `@gsl_lab`.
 - [ ] **Foto do Sobre:** proporção 4:5; instruções em `src/components/AboutPhoto.tsx`.
-- [ ] **Print do site (opcional):** quando o site estiver no ar, trocar o desenho em `src/components/SiteMockup.tsx` por uma imagem real.
+- [x] **Print do site:** o "Este portfólio" da pasta Sistemas usa o print real (`public/sistemas/gsl-lab-inicio.png`). O `SiteMockup.tsx` e o tipo `site` ficaram sem uso e podem ser apagados.
 
-- [ ] **Sistemas 2 e 3:** textos (`[...]`), links e prints em `src/data/sistemas.ts` (hoje são `.svg` provisórios). O JáNaCaixa ainda tem `[Função 2]`, `[Função 3]`, a revisão do "problema" e o link da demo.
+- [ ] **Sistema 3:** textos (`[...]`), links e prints em `src/data/sistemas.ts` (hoje são `.svg` provisórios). O 2º sistema é o próprio GSL Lab: revisar os textos dele. O JáNaCaixa ainda tem `[Função 2]`, `[Função 3]`, a revisão do "problema" e o link da demo.
 
 ## 2. Revisão de responsividade
 
@@ -65,7 +65,7 @@ Quando o sistema está com "reduzir animações" ligado, o site deve aparecer pr
 
 ## 6. Página Sistemas
 
-- [ ] **Pasta Sistemas na home (decidido, falta fazer):** os arquivos do leque passam a vir de `src/data/sistemas.ts`, um por sistema (até 4), com o `printDesktop` de capa. Clicar num arquivo leva para `/#/sistemas` em vez de abrir o visualizador; quando o link direto existir, vai para `/#/sistemas/<slug>` com o modal aberto. O "Este portfólio" e o `SiteMockup.tsx` saem. Motivo: hoje a pasta mostra 1 item que não está na página Sistemas, e cada sistema ficaria cadastrado em dois lugares.
+- [ ] **Pasta Sistemas na home (decidido, feito em parte):** o JáNaCaixa já entrou na pasta (25/11), como imagem que abre no visualizador, ao lado do "Este portfólio". Falta o resto da decisão: os arquivos do leque passam a vir de `src/data/sistemas.ts`, um por sistema (até 4), com o `printDesktop` de capa. Clicar num arquivo leva para `/#/sistemas` em vez de abrir o visualizador; quando o link direto existir, vai para `/#/sistemas/<slug>` com o modal aberto. O "Este portfólio" e o `SiteMockup.tsx` saem. Motivo: hoje a pasta mostra 1 item que não está na página Sistemas, e cada sistema ficaria cadastrado em dois lugares.
 - [ ] **Link direto do modal** (`/#/sistemas/ja-na-caixa`): o estado já é guardado pelo slug em `ProjetosGrade.tsx`; falta a rota ler o slug e abrir o modal.
 - [ ] **Selo "Vídeo · em loop, sem som":** a referência diz que ele "some quando houver vídeo". Como isso pareceu invertido, hoje ele aparece SÓ quando o sistema tem `video`. Confirmar.
 - [ ] **Tamanho do JavaScript:** com o `motion`, o arquivo principal passou de 365 kB para 523 kB (173 kB comprimido) e o Vite avisa no build. Dá para carregar a página Sistemas só quando alguém entra nela (`React.lazy`) ou usar o `LazyMotion` do motion.

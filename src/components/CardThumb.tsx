@@ -15,7 +15,8 @@ export function CardThumb({ item }: { item: PortfolioItem }) {
         src={item.image}
         alt=""
         className={cn(
-          'block aspect-[4/5] w-full',
+          'block w-full',
+          item.deitada ? 'aspect-[16/10] object-left-top' : 'aspect-[4/5]',
           item.fit === 'contain' ? 'bg-[#0d2a2e] object-contain' : 'bg-[#111] object-cover',
         )}
       />

@@ -6,6 +6,7 @@ import design1 from '@/assets/design-1.jpg'
 import design2 from '@/assets/design-2.jpg'
 import design3 from '@/assets/design-3.jpg'
 import design4 from '@/assets/design-4.jpg'
+import { buscarSistema } from './sistemas'
 import { formatarVisualizacoes, temLink, videos } from './videos'
 
 // ---------- Tipos ----------
@@ -27,6 +28,7 @@ export interface ImageItem extends ItemBase {
   image: string
   alt?: string              // "?" = opcional; sem ele, usa o nome
   fit?: 'cover' | 'contain' // contain = mostra a imagem inteira (bom para banner)
+  deitada?: boolean         // capa 16:10 em vez de 4:5 (print de tela de computador)
 }
 
 export interface VideoItem extends ItemBase {
@@ -55,7 +57,25 @@ export const folders: Folder[] = [
     id: 'sistemas',
     name: 'Sistemas',
     items: [
-      { id: 'portfolio', kind: 'site', name: 'Este portfólio', detail: 'Site pessoal · React + Tailwind' },
+      {
+        id: 'ja-na-caixa',
+        kind: 'image',
+        name: 'JáNaCaixa',
+        detail: 'Controle financeiro · React + Django',
+        // o mesmo print da capa na página Sistemas (src/data/sistemas.ts)
+        image: buscarSistema('ja-na-caixa')?.printDesktop ?? '',
+        alt: 'Tela de login do JáNaCaixa',
+        deitada: true,
+      },
+      {
+        id: 'gsl-lab',
+        kind: 'image',
+        name: 'Este portfólio',
+        detail: 'Site pessoal · React + Tailwind',
+        image: buscarSistema('gsl-lab')?.printDesktop ?? '',
+        alt: 'Página inicial do GSL Lab',
+        deitada: true,
+      },
     ],
   },
   {
