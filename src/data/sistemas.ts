@@ -13,6 +13,9 @@ const arquivo = (nome: string) => `${import.meta.env.BASE_URL}sistemas/${nome}`
 export interface Tela {
   rotulo: string // texto da miniatura (ex.: "Relatórios")
   src: string
+  // De que tela é o print. No modal, um print de celular dentro do quadro
+  // largo (16:9) aparece inteiro, sem corte; o mesmo vale ao contrário.
+  formato?: 'desktop' | 'celular' // sem ele: 'desktop'
 }
 
 export interface Sistema {
@@ -54,7 +57,9 @@ export const sistemas: Sistema[] = [
     codigoUrl: 'https://github.com/stfl-guilherme/ja-na-caixa',
     printDesktop: arquivo('ja-na-caixa-desktop.png'),
     printCelular: arquivo('ja-na-caixa-celular.jpg'),
-    telasExtras: [{ rotulo: 'Gráfico do mês', src: arquivo('ja-na-caixa-celular-grafico.jpg') }],
+    telasExtras: [
+      { rotulo: 'Gráfico do mês', src: arquivo('ja-na-caixa-celular-grafico.jpg'), formato: 'celular' },
+    ],
   },
   {
     // sem demoUrl: o modal mostra só "Ver código"

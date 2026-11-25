@@ -5,6 +5,8 @@ import { Footer } from '@/components/Footer'
 import { Header } from '@/components/Header'
 import { SkipLink } from '@/components/SkipLink'
 import { HeroEditor } from '@/components/sistemas/HeroEditor'
+import { ProjetosGrade } from '@/components/sistemas/ProjetosGrade'
+import { SistemasNav } from '@/components/sistemas/SistemasNav'
 
 // Página /#/sistemas. Mesmo modelo da EdicaoVideo: Cabeçalho, Contato e
 // Rodapé são os componentes da home; o miolo (hero + projetos) é daqui.
@@ -21,10 +23,12 @@ export function Sistemas() {
       <Header variant="pagina" />
       <main id="topo" tabIndex={-1} className="outline-none">
         <HeroEditor />
+        <ProjetosGrade />
         <Contact variant="pagina" />
       </main>
       <Footer />
 
+      <SistemasNav />
       <BackButton />
     </div>
   )

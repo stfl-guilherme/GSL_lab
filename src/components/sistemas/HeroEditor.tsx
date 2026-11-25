@@ -9,6 +9,8 @@ import { cn } from '@/lib/utils'
 // Referência: docs/design/referencia-sistemas-hero.md
 // ---------------------------------------------------------------
 
+export const ID_HERO = 'sistemas-hero'
+
 const FRASE = 'Sistemas web do banco de dados à interface, pensados para funcionar bem no celular.'
 
 // O código é uma lista de LINHAS; cada linha, uma lista de TRECHOS
@@ -105,7 +107,7 @@ export function HeroEditor() {
 
   return (
     <section
-      id="sistemas-hero"
+      id={ID_HERO}
       aria-labelledby="sistemas-titulo"
       className="wrap flex min-h-[648px] flex-col justify-center pt-2 pb-[72px] md:min-h-[812px] md:pt-4"
     >
