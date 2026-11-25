@@ -13,6 +13,8 @@ No código, as pendências de conteúdo também estão marcadas com `TODO`.
 - [ ] **Foto do Sobre:** proporção 4:5; instruções em `src/components/AboutPhoto.tsx`.
 - [ ] **Print do site (opcional):** quando o site estiver no ar, trocar o desenho em `src/components/SiteMockup.tsx` por uma imagem real.
 
+- [ ] **Sistemas 2 e 3:** textos (`[...]`), links e prints em `src/data/sistemas.ts` (hoje são `.svg` provisórios). O JáNaCaixa ainda tem `[Função 2]`, `[Função 3]`, a revisão do "problema" e o link da demo.
+
 ## 2. Revisão de responsividade
 
 Conferir em 390 px (celular) e 1440 px (desktop), e também nas larguras do meio.
@@ -49,6 +51,7 @@ Quando o sistema está com "reduzir animações" ligado, o site deve aparecer pr
 - [ ] **Testar de verdade:** ligar a opção no sistema (ou simular no DevTools do Chrome: Rendering → Emulate CSS media feature `prefers-reduced-motion: reduce`) e conferir hero, pastas, leque e visualizador.
 - [ ] Decidir se a inclinação da pasta seguindo o mouse também deve ser desligada (ela é feita por JavaScript, então a regra do CSS só tira a suavidade, não o movimento).
 - [ ] Rolagem suave dos links do topo: conferir que vira rolagem instantânea.
+- [ ] **Modal da página Sistemas:** com a opção ligada, conferir que o modal só aparece/some com fade (sem crescer do cartão) e que os cartões não inclinam nem ficam borrados. (Testado só com a opção desligada.)
 
 ## 5. Deploy (GitHub Pages + GitHub Actions)
 
@@ -59,6 +62,13 @@ Quando o sistema está com "reduzir animações" ligado, o site deve aparecer pr
 - [ ] Criar o workflow `.github/workflows/deploy.yml`.
 - [ ] No GitHub: Settings → Pages → Source: GitHub Actions.
 - [ ] Abrir o site publicado e repetir o teste rápido no celular.
+
+## 6. Página Sistemas
+
+- [ ] **Pasta Sistemas na home (decidido, falta fazer):** os arquivos do leque passam a vir de `src/data/sistemas.ts`, um por sistema (até 4), com o `printDesktop` de capa. Clicar num arquivo leva para `/#/sistemas` em vez de abrir o visualizador; quando o link direto existir, vai para `/#/sistemas/<slug>` com o modal aberto. O "Este portfólio" e o `SiteMockup.tsx` saem. Motivo: hoje a pasta mostra 1 item que não está na página Sistemas, e cada sistema ficaria cadastrado em dois lugares.
+- [ ] **Link direto do modal** (`/#/sistemas/ja-na-caixa`): o estado já é guardado pelo slug em `ProjetosGrade.tsx`; falta a rota ler o slug e abrir o modal.
+- [ ] **Selo "Vídeo · em loop, sem som":** a referência diz que ele "some quando houver vídeo". Como isso pareceu invertido, hoje ele aparece SÓ quando o sistema tem `video`. Confirmar.
+- [ ] **Tamanho do JavaScript:** com o `motion`, o arquivo principal passou de 365 kB para 523 kB (173 kB comprimido) e o Vite avisa no build. Dá para carregar a página Sistemas só quando alguém entra nela (`React.lazy`) ou usar o `LazyMotion` do motion.
 
 ## Fora do escopo agora
 
