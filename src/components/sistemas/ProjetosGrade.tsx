@@ -22,7 +22,8 @@ export function ProjetosGrade() {
 
   // "Reduzir animações" ligado: sem morph e sem inclinação.
   const reduzido = useReducedMotion() ?? false
-  const comMouse = useMediaQuery('(hover: hover) and (min-width: 47.5625rem)')
+  const desktop = useMediaQuery('(min-width: 47.5625rem)')
+  const comMouse = useMediaQuery('(hover: hover)')
 
   // Botões dos cartões, por slug: ao fechar o modal o foco volta para o de origem.
   const botoes = useRef(new Map<string, HTMLButtonElement>())
@@ -50,8 +51,8 @@ export function ProjetosGrade() {
                 }}
                 sistema={sistema}
                 escondido={aberto?.origem === sistema.slug}
-                morph={!reduzido}
-                inclina={comMouse && !reduzido}
+                morph={desktop && !reduzido} // no celular o modal não cresce do cartão
+                inclina={desktop && comMouse && !reduzido}
                 onAbrir={() => setAberto({ origem: sistema.slug, atual: sistema.slug })}
               />
             </li>
@@ -66,7 +67,7 @@ export function ProjetosGrade() {
             key="modal"
             atual={aberto.atual}
             origem={aberto.origem}
-            morph={!reduzido}
+            reduzido={reduzido}
             onTrocar={(slug) => setAberto({ ...aberto, atual: slug })}
             onFechar={() => setAberto(null)}
             devolverFoco={() => botoes.current.get(aberto.origem)?.focus()}

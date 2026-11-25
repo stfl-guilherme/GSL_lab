@@ -5,12 +5,13 @@ import { useRef, useState, type KeyboardEvent, type PointerEvent, type ReactNode
 import { buscarSistema, sistemas, type Sistema, type Tela } from '@/data/sistemas'
 import { useMediaQuery } from '@/hooks/useMediaQuery'
 import { cn } from '@/lib/utils'
-import { ABRIR, morphIds } from './morph'
+import { ABRIR, CURVA, morphIds } from './morph'
+import { NomeSistema } from './NomeSistema'
 
 interface ModalSistemaProps {
   atual: string // slug do sistema mostrado agora
   origem: string // slug do cartão que abriu o modal (é para ele que o morph volta)
-  morph: boolean // false com "reduzir animações": só um fade de 0,2 s
+  reduzido: boolean // "reduzir animações" ligado: só um fade de 0,2 s
   onTrocar: (slug: string) => void
   onFechar: () => void
   devolverFoco: () => void
@@ -19,12 +20,15 @@ interface ModalSistemaProps {
 // Uma mídia do modal (miniatura + imagem grande).
 type Midia = Required<Tela>
 
-// A lista muda conforme a tela: no celular o print de celular vem primeiro.
+// 1ª mídia = a capa do cartão daquela tela: o print desktop no desktop,
+// o de celular no celular. Depois, as extras (no celular, as de celular).
 function listarMidias(s: Sistema, desktop: boolean): Midia[] {
-  const largo: Midia = { rotulo: desktop ? 'Tela inicial' : 'Computador', src: s.printDesktop, formato: 'desktop' }
-  const celular: Midia = { rotulo: 'Celular', src: s.printCelular, formato: 'celular' }
-  const extras = (s.telasExtras ?? []).map((t) => ({ formato: 'desktop' as const, ...t }))
-  return [...(desktop ? [largo, celular] : [celular, largo]), ...extras]
+  const capa: Midia = desktop
+    ? { rotulo: s.rotuloCapa ?? 'Tela inicial', src: s.printDesktop, formato: 'desktop' }
+    : { rotulo: s.rotuloCapa ?? 'Celular', src: s.printCelular, formato: 'celular' }
+  const lista = desktop ? s.telasExtras : (s.telasCelular ?? s.telasExtras)
+  const extras = (lista ?? []).map((t) => ({ formato: 'desktop' as const, ...t }))
+  return [capa, ...extras]
 }
 
 // O quadro é 16:9 no desktop e 4:5 no celular. Print do mesmo formato
@@ -33,8 +37,11 @@ function listarMidias(s: Sistema, desktop: boolean): Midia[] {
 const encaixe = (m: Midia, desktop: boolean) =>
   m.formato === (desktop ? 'desktop' : 'celular') ? 'object-cover object-left-top' : 'object-contain'
 
-export function ModalSistema({ atual, origem, morph, onTrocar, onFechar, devolverFoco }: ModalSistemaProps) {
+export function ModalSistema({ atual, origem, reduzido, onTrocar, onFechar, devolverFoco }: ModalSistemaProps) {
   const desktop = useMediaQuery('(min-width: 47.5625rem)')
+  // Morph (crescer a partir do cartão) só no desktop: no celular o painel
+  // ocupa a tela toda e animar o tamanho dele travava. Lá ele sobe da base.
+  const morph = desktop && !reduzido
   const fechar = useRef<HTMLButtonElement>(null)
   const toqueX = useRef<number | null>(null)
 
@@ -70,10 +77,18 @@ export function ModalSistema({ atual, origem, morph, onTrocar, onFechar, devolve
         exit: { opacity: 0, transition: { duration: 0.15 } },
       }
     : {}
-  // Com "reduzir animações" quem anima é o painel inteiro: fade de 0,2 s.
-  const fade = morph
+  // Sem morph quem anima é o painel inteiro: no celular ele sobe 24 px
+  // enquanto aparece; com "reduzir animações", só o fade de 0,2 s.
+  const entrada = morph
     ? {}
-    : { initial: { opacity: 0 }, animate: { opacity: 1 }, exit: { opacity: 0 }, transition: { duration: 0.2 } }
+    : reduzido
+      ? { initial: { opacity: 0 }, animate: { opacity: 1 }, exit: { opacity: 0 }, transition: { duration: 0.2 } }
+      : {
+          initial: { opacity: 0, y: 24 },
+          animate: { opacity: 1, y: 0 },
+          exit: { opacity: 0, y: 24 },
+          transition: { duration: 0.3, ease: CURVA },
+        }
 
   function aoTeclar(e: KeyboardEvent) {
     if (!desktop || n < 2) return
@@ -81,12 +96,17 @@ export function ModalSistema({ atual, origem, morph, onTrocar, onFechar, devolve
     if (e.key === 'ArrowRight') onTrocar(vizinho(1))
   }
 
-  // Swipe no celular: arrastou mais de 40 px na horizontal, troca.
+  const mostrar = (i: number) => setEscolha({ slug: atual, i })
+
+  // Swipe no celular: arrastou mais de 40 px na horizontal, vai para a
+  // imagem seguinte (ou anterior) do MESMO sistema. Para nas pontas.
   function aoSoltar(e: PointerEvent) {
-    if (toqueX.current === null || n < 2) return
+    if (toqueX.current === null) return
     const dx = e.clientX - toqueX.current
     toqueX.current = null
-    if (Math.abs(dx) > 40) onTrocar(vizinho(dx < 0 ? 1 : -1))
+    if (Math.abs(dx) <= 40) return
+    const destino = ativa + (dx < 0 ? 1 : -1)
+    if (destino >= 0 && destino < midias.length) mostrar(destino)
   }
 
   const acoes = (
@@ -111,7 +131,7 @@ export function ModalSistema({ atual, origem, morph, onTrocar, onFechar, devolve
               desktop ? 'text-[28px]' : 'text-[24px]',
             )}
           >
-            {sistema.nome}
+            <NomeSistema sistema={sistema} />
           </motion.h2>
         </DialogPrimitive.Title>
         <motion.div {...surge}>
@@ -159,11 +179,12 @@ export function ModalSistema({ atual, origem, morph, onTrocar, onFechar, devolve
             {/* fundo: vidro claro, não escurece a página */}
             <motion.div
               aria-hidden="true"
-              className="absolute inset-0 bg-white/30 backdrop-blur-[8px]"
+              // no celular o painel é opaco e cobre tudo: desfocar atrás só pesaria
+              className="absolute inset-0 bg-white/30 md:backdrop-blur-[8px]"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0, transition: { duration: morph ? 0.5 : 0.2 } }}
-              transition={{ duration: morph ? 0.6 : 0.2 }}
+              transition={{ duration: morph ? 0.6 : reduzido ? 0.2 : 0.3 }}
             />
 
             <DialogPrimitive.Content
@@ -182,7 +203,7 @@ export function ModalSistema({ atual, origem, morph, onTrocar, onFechar, devolve
             >
               <motion.div
                 {...viaja(ids.painel)}
-                {...fade}
+                {...entrada}
                 className={cn(
                   'relative outline-none',
                   desktop
@@ -253,26 +274,28 @@ export function ModalSistema({ atual, origem, morph, onTrocar, onFechar, devolve
                         )}
                       </motion.div>
 
-                      {!desktop && n > 1 && (
-                        <motion.div {...surge} className="flex justify-center">
-                          {sistemas.map((s, i) => (
+                      {/* celular: um ponto por IMAGEM (não por sistema; lá não se
+                          troca de sistema dentro do modal) */}
+                      {!desktop && midias.length > 1 && (
+                        <div className="flex justify-center">
+                          {midias.map((m, i) => (
                             <button
-                              key={s.slug}
+                              key={m.src}
                               type="button"
-                              aria-label={`Ver ${s.nome}`}
-                              aria-current={i === pos || undefined}
-                              onClick={() => onTrocar(s.slug)}
+                              aria-label={`Ver imagem ${i + 1}: ${m.rotulo}`}
+                              aria-current={i === ativa || undefined}
+                              onClick={() => mostrar(i)}
                               className="grid size-11 cursor-pointer place-items-center"
                             >
                               <span
                                 className={cn(
                                   'h-2 rounded-full transition-[width,background-color] duration-300',
-                                  i === pos ? 'w-[22px] bg-ink' : 'w-2 bg-rabisco',
+                                  i === ativa ? 'w-[22px] bg-ink' : 'w-2 bg-rabisco',
                                 )}
                               />
                             </button>
                           ))}
-                        </motion.div>
+                        </div>
                       )}
 
                       {!desktop && cabecalho}
@@ -286,7 +309,7 @@ export function ModalSistema({ atual, origem, morph, onTrocar, onFechar, devolve
                             key={m.src}
                             type="button"
                             aria-pressed={i === ativa}
-                            onClick={() => setEscolha({ slug: atual, i })}
+                            onClick={() => mostrar(i)}
                             className={cn(
                               'relative aspect-video cursor-pointer overflow-hidden rounded-[10px] border border-line bg-off',
                               i === ativa && 'outline-2 outline-offset-2 outline-ink',

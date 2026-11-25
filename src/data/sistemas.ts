@@ -18,9 +18,18 @@ export interface Tela {
   formato?: 'desktop' | 'celular' // sem ele: 'desktop'
 }
 
+// Nome escrito como o logo do próprio sistema: uma fonte e um pedaço de
+// texto para cada cor. A fonte precisa ser carregada no index.html.
+export interface Logo {
+  fonte: string // ex.: "'Baloo 2', sans-serif"
+  peso: number
+  partes: { texto: string; cor: string }[] // juntas formam o nome
+}
+
 export interface Sistema {
   slug: string          // identificador único, sem espaço nem acento (ex.: "ja-na-caixa")
   nome: string
+  logo?: Logo           // sem ele, o nome usa a fonte e as cores do site
   resumo: string        // 1 linha: aparece no cartão e no subtítulo do modal
   stack: string[]
   problema: string
@@ -29,10 +38,14 @@ export interface Sistema {
   demoUrl?: string      // "?" = opcional; sem ele, o botão "Abrir demo" não aparece
   demoNota?: string     // só aparece se houver demo
   codigoUrl: string
-  printDesktop: string  // 16:9
-  printCelular: string  // 4:5
+  printDesktop: string  // 16:9 (capa do cartão e 1ª mídia do modal no desktop)
+  rotuloCapa?: string   // nome da 1ª miniatura do modal; sem ele: "Tela inicial" (desktop) e "Celular"
+  printCelular: string  // 4:5 (capa do cartão e 1ª mídia do modal no celular)
   video?: string        // mp4 curto em loop (sem som); o printDesktop vira a capa
   telasExtras?: Tela[]
+  // Telas extras do CELULAR (prints de celular). Sem elas, o celular
+  // mostra as mesmas telasExtras do desktop.
+  telasCelular?: Tela[]
 }
 
 // ---------- Sistemas ----------
@@ -42,6 +55,14 @@ export const sistemas: Sistema[] = [
   {
     slug: 'ja-na-caixa',
     nome: 'JáNaCaixa',
+    logo: {
+      fonte: "'Baloo 2', sans-serif",
+      peso: 800,
+      partes: [
+        { texto: 'Já', cor: '#157A2E' },
+        { texto: 'NaCaixa', cor: '#142028' },
+      ],
+    },
     resumo: 'Controle financeiro pessoal sem planilha.',
     stack: ['React', 'TypeScript', 'Django', 'PostgreSQL'],
     problema:
@@ -55,25 +76,46 @@ export const sistemas: Sistema[] = [
     demoUrl: 'https://[demo-ja-na-caixa]', // TODO: link da demo publicada
     demoNota: 'A demo tem login de demonstração: não precisa criar conta.',
     codigoUrl: 'https://github.com/stfl-guilherme/ja-na-caixa',
-    printDesktop: arquivo('ja-na-caixa-desktop.png'),
-    printCelular: arquivo('ja-na-caixa-celular.jpg'),
+    // o login é a capa: tem as cores mais fortes da grade
+    printDesktop: arquivo('ja-na-caixa-login-desktop.png'),
+    printCelular: arquivo('ja-na-caixa-login-celular.jpg'),
+    rotuloCapa: 'Login',
     telasExtras: [
-      { rotulo: 'Gráfico do mês', src: arquivo('ja-na-caixa-celular-grafico.jpg'), formato: 'celular' },
+      { rotulo: 'Tela principal', src: arquivo('ja-na-caixa-painel.png') },
+      { rotulo: 'Categorias', src: arquivo('ja-na-caixa-categorias.png') },
+    ],
+    telasCelular: [
+      { rotulo: 'Tela principal', src: arquivo('ja-na-caixa-painel-celular.jpg'), formato: 'celular' },
+      { rotulo: 'Gráfico do mês', src: arquivo('ja-na-caixa-grafico-celular.jpg'), formato: 'celular' },
     ],
   },
   {
-    // sem demoUrl: o modal mostra só "Ver código"
-    slug: 'sistema-2',
-    nome: '[Sistema 2]',
-    resumo: '[Resumo do sistema em uma linha.]',
-    stack: ['[Tecnologia 1]', '[Tecnologia 2]', '[Tecnologia 3]'],
-    problema: '[Qual problema este sistema resolve.]',
-    oQueFaz: ['[Função 1]', '[Função 2]', '[Função 3]'],
-    meuPapel: '[O que você fez neste projeto.]',
-    codigoUrl: 'https://github.com/stfl-guilherme/[sistema-2]',
-    printDesktop: arquivo('sistema-2-desktop.svg'),
-    printCelular: arquivo('sistema-2-celular.svg'),
-    telasExtras: [{ rotulo: '[Outra tela]', src: arquivo('sistema-2-extra.svg') }],
+    // Este próprio site. Sem demoUrl: quem vê o modal já está na "demo".
+    // Os textos são um ponto de partida: revise com as suas palavras.
+    slug: 'gsl-lab',
+    nome: 'GSL Lab',
+    resumo: 'Este portfólio: sistemas, design e edição de vídeo.',
+    stack: ['React', 'TypeScript', 'Tailwind CSS', 'Vite'],
+    problema:
+      'Mostrar trabalhos de três áreas diferentes num lugar só, sem virar uma vitrine genérica e funcionando bem no celular.',
+    oQueFaz: [
+      'Pastas de vidro que abrem em leque com os trabalhos de cada área.',
+      'Páginas próprias para Edição de vídeo e Sistemas, com animações que respeitam o "reduzir animações".',
+      'Navegação completa pelo teclado e por leitor de tela.',
+    ],
+    meuPapel: 'Projeto individual: do layout ao código, em React com TypeScript.',
+    codigoUrl: 'https://github.com/stfl-guilherme/GSL_lab',
+    printDesktop: arquivo('gsl-lab-inicio.png'),
+    printCelular: arquivo('gsl-lab-inicio-celular.jpg'),
+    rotuloCapa: 'Início',
+    telasExtras: [
+      { rotulo: 'Sistemas', src: arquivo('gsl-lab-sistemas.png') },
+      { rotulo: 'Edição de vídeo', src: arquivo('gsl-lab-edicao.png') },
+    ],
+    telasCelular: [
+      { rotulo: 'Sistemas', src: arquivo('gsl-lab-sistemas-celular.jpg'), formato: 'celular' },
+      { rotulo: 'Edição de vídeo', src: arquivo('gsl-lab-edicao-celular.jpg'), formato: 'celular' },
+    ],
   },
   {
     slug: 'sistema-3',

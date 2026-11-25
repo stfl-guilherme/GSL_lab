@@ -3,6 +3,7 @@ import { motion } from 'motion/react'
 import { useRef, type MouseEvent, type Ref } from 'react'
 import type { Sistema } from '@/data/sistemas'
 import { FECHAR, morphIds } from './morph'
+import { NomeSistema } from './NomeSistema'
 
 interface CartaoSistemaProps {
   ref?: Ref<HTMLButtonElement> // a grade guarda para devolver o foco ao fechar o modal
@@ -89,7 +90,7 @@ export function CartaoSistema({ ref, sistema, escondido, morph, inclina, onAbrir
                 <img
                   src={sistema.printCelular}
                   alt=""
-                  className="size-full origin-top-left object-cover object-left-top md:transition-[filter,scale] md:duration-500 md:motion-safe:scale-105 md:motion-safe:blur-[3px] md:group-hover:scale-100 md:group-hover:blur-none md:group-focus-visible:scale-100 md:group-focus-visible:blur-none"
+                  className="size-full origin-top-left object-cover object-left-top transition-[filter,scale] duration-500 motion-safe:scale-105 motion-safe:blur-[3px] group-hover:scale-100 group-hover:blur-none group-focus-visible:scale-100 group-focus-visible:blur-none"
                 />
               </picture>
             </motion.span>
@@ -109,7 +110,7 @@ export function CartaoSistema({ ref, sistema, escondido, morph, inclina, onAbrir
                 transition={FECHAR}
                 className="block text-[22px] leading-[1.15] font-extrabold tracking-[-.01em] text-ink"
               >
-                {sistema.nome}
+                <NomeSistema sistema={sistema} />
               </motion.span>
               <span className="block text-[15px] leading-[1.45] text-ink">{sistema.resumo}</span>
               <span className="mt-1 flex flex-wrap gap-1.5">
