@@ -37,6 +37,8 @@ Extraído do protótipo aprovado no Claude Design (artboard `Sistemas-Grade`). F
 - Frase de apoio: 18px (celular 16px), `line-height 1.55`, `max-width 520px`, `margin-top 28px` (celular 20px): "Sistemas web do banco de dados à interface, pensados para funcionar bem no celular." Entra com subida de 16px, 0.6s, atraso 2.5s.
 
 ## Tempo (um relógio só, em ms desde a montagem)
+
+> **Ajustado no site (25/11/2026), a pedido: hero mais rápido.** Valores em uso: nada digitado até 200; digita de 200 a 1500; cursor some em 1600; fim em 1900; frase de apoio com atraso de 1,4 s. Os números abaixo são os do protótipo original.
 - 0–350: nada digitado.
 - 350–2550: digita todos os caracteres em ritmo constante (cada quebra de linha conta como 1 caractere).
 - 2650: os dois cursores somem.

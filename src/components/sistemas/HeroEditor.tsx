@@ -61,14 +61,14 @@ const INICIO_P2 = CODIGO.indexOf(P2)
 const FIM_ESPACO = CODIGO.indexOf(ESPACO) + ESPACO.length
 
 // ---------- Relógio (ms desde a montagem) ----------
-const COMECA = 350 // até aqui, nada digitado
-const DIGITA = 2200 // 350 → 2550: todos os caracteres em ritmo constante
-const SOME_CURSOR = 2650
-const FIM = 3100
+const COMECA = 200 // até aqui, nada digitado
+const DIGITA = 1300 // 200 → 1500: todos os caracteres em ritmo constante
+const SOME_CURSOR = 1600
+const FIM = 1900
 
 const limitar = (n: number, max: number) => Math.max(0, Math.min(max, n))
 
-// Devolve o tempo t (0 → 3100). Mesmo padrão do useTimecode da Edição:
+// Devolve o tempo t (0 → 1900). Mesmo padrão do useTimecode da Edição:
 // requestAnimationFrame + cleanup. Com "reduzir animações", já nasce em FIM.
 function useRelogio() {
   const [t, setT] = useState(() => (prefersReducedMotion() ? FIM : 0))
@@ -81,7 +81,7 @@ function useRelogio() {
     const tick = (agora: number) => {
       const ms = Math.min(FIM, agora - inicio)
       setT(ms)
-      if (ms < FIM) raf = requestAnimationFrame(tick) // em 3100 o laço para sozinho
+      if (ms < FIM) raf = requestAnimationFrame(tick) // em 1900 o laço para sozinho
     }
     raf = requestAnimationFrame(tick)
 
