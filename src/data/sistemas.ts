@@ -33,7 +33,8 @@ export interface Sistema {
 }
 
 // ---------- Sistemas ----------
-// TODO: os textos entre [colchetes] e os prints .svg são provisórios.
+// TODO: os textos entre [colchetes] e os prints .svg são provisórios
+// (o JáNaCaixa já tem os prints reais).
 export const sistemas: Sistema[] = [
   {
     slug: 'ja-na-caixa',
@@ -51,9 +52,9 @@ export const sistemas: Sistema[] = [
     demoUrl: 'https://[demo-ja-na-caixa]', // TODO: link da demo publicada
     demoNota: 'A demo tem login de demonstração: não precisa criar conta.',
     codigoUrl: 'https://github.com/stfl-guilherme/ja-na-caixa',
-    printDesktop: arquivo('ja-na-caixa-desktop.svg'),
-    printCelular: arquivo('ja-na-caixa-celular.svg'),
-    telasExtras: [{ rotulo: '[Outra tela]', src: arquivo('ja-na-caixa-extra.svg') }],
+    printDesktop: arquivo('ja-na-caixa-desktop.png'),
+    printCelular: arquivo('ja-na-caixa-celular.jpg'),
+    telasExtras: [{ rotulo: 'Gráfico do mês', src: arquivo('ja-na-caixa-celular-grafico.jpg') }],
   },
   {
     // sem demoUrl: o modal mostra só "Ver código"
